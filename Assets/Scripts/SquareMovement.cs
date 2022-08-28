@@ -37,6 +37,14 @@ public class SquareMovement : MonoBehaviour
         }
     }
 
+    void OnCollisionEnter(Collision collision)
+    {
+        if(collision.gameObject.name == "Cube"){
+            Debug.Log("FPSController");
+            rigidBody.AddForce(Vector3.up * 500);
+        }
+    }
+
     private void followObject(Transform transformObjectToFollow, Transform transformObject){
         transformObject.position = Vector3.MoveTowards(
             transformObject.position, 
