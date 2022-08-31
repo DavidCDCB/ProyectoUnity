@@ -16,6 +16,7 @@ public class SquareMovement : MonoBehaviour
         rigidBody = GetComponent<Rigidbody>();
         player = GameObject.FindGameObjectWithTag("Player");
         transformPlayer = player.GetComponent<Transform>();
+        //test de comentario 
     }
 
     // Update is called once per frame
@@ -36,7 +37,7 @@ public class SquareMovement : MonoBehaviour
             //Instantiate(this, new Vector3(mouse.x,mouse.y,transform.position.z), Quaternion.identity);
         }
     }
-
+//TEST
     void OnCollisionEnter(Collision collision)
     {
         if(collision.gameObject.name == "Cube"){
