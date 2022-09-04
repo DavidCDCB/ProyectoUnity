@@ -16,6 +16,7 @@ public class SquareMovement : MonoBehaviour
         rigidBody = GetComponent<Rigidbody>();
         player = GameObject.FindGameObjectWithTag("Player");
         transformPlayer = player.GetComponent<Transform>();
+        //test de comentario 
     }
 
     // Update is called once per frame
