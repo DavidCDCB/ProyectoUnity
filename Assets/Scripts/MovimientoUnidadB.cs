@@ -7,23 +7,27 @@ public class MovimientoUnidadB : MonoBehaviour
     public float speed;
     private GameObject torre;
     private Transform transformPlayer;
+     
+    private bool sigue=false;
+
+
     // Start is called before the first frame update
     void Start()
     {
-        this.speed = 10;
-        torre = GameObject.Find("t1Red");
-        transformPlayer = torre.GetComponent<Transform>();
+
     }
 
     void OnCollisionEnter(Collision collision)
     {
-        Debug.Log(collision.gameObject.name);
+        //Debug.Log(collision.gameObject.name);
     }
 
     // Update is called once per frame
     void Update()
     {
+        if(this.sigue){
         followObject(transformPlayer, transform);
+        }
     }
 
     private void followObject(Transform transformObjectToFollow, Transform transformObject){
@@ -33,5 +37,14 @@ public class MovimientoUnidadB : MonoBehaviour
             Time.deltaTime * this.speed
         );
         transformObject.LookAt(transformObjectToFollow.position);
+    }
+
+    public void sigueObjeto(){
+        this.sigue=true;
+        this.speed = 10;
+        torre = GameObject.Find("t1Red");
+        transformPlayer = torre.GetComponent<Transform>();
+
+
     }
 }
