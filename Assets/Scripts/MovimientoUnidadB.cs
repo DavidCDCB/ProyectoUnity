@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class MovimientoUnidadB : MonoBehaviour
@@ -7,9 +5,8 @@ public class MovimientoUnidadB : MonoBehaviour
     public float speed;
     private GameObject torre;
     private Transform transformPlayer;
-     
+    private Vector3 targetPosition;
     private bool sigue=false;
-
 
     // Start is called before the first frame update
     void Start()
@@ -26,25 +23,29 @@ public class MovimientoUnidadB : MonoBehaviour
     void Update()
     {
         if(this.sigue){
-        followObject(transformPlayer, transform);
+            followObject(targetPosition, transform);
+        }
+
+        if(Vector3.Distance(transform.position,this.targetPosition) < 1){
+            this.sigue = false;
         }
     }
 
-    private void followObject(Transform transformObjectToFollow, Transform transformObject){
+    private void followObject(Vector3 objectToFollow, Transform transformObject)
+    {
         transformObject.position = Vector3.MoveTowards(
             transformObject.position, 
-            transformObjectToFollow.position, 
+            objectToFollow, 
             Time.deltaTime * this.speed
         );
-        transformObject.LookAt(transformObjectToFollow.position);
+        transformObject.LookAt(objectToFollow);
     }
 
-    public void sigueObjeto(){
-        this.sigue=true;
+    public void followStart(Vector3 position)
+    {
+        this.sigue = true;
         this.speed = 10;
         torre = GameObject.Find("t1Red");
-        transformPlayer = torre.GetComponent<Transform>();
-
-
+        this.targetPosition = position;
     }
 }

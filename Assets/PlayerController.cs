@@ -1,28 +1,38 @@
-
 using UnityEngine;
-using UnityEngine.EventSystems;
 using System.Collections;
 
 public class PlayerController : MonoBehaviour
 {
     public float rayLength;
     public LayerMask layermask;
+    private MovimientoUnidadB currentObject;
 
-    private void Update(){
-        if(Input.GetMouseButtonDown (0)  && !EventSystem.current.IsPointerOverGameObject()){
-            RaycastHit hit;
-            Ray ray= Camera.main.ScreenPointToRay(Input.mousePosition);
+    private void Update()
+    {
+        checkEventClick();
+    }
+
+    private void checkEventClick()
+    {
+        RaycastHit hit;
+        Ray ray;
+        if((Input.GetMouseButtonDown(0) || Input.GetMouseButtonDown(1))){
+            ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             if(Physics.Raycast(ray, out hit, rayLength, layermask)){
-                Debug.Log(hit.collider.gameObject.name);
-                MovimientoUnidadB descScript=hit.collider.GetComponent<MovimientoUnidadB>();
-                if(descScript){
-                    descScript.sigueObjeto();
-                }
-                //hit.collider.gameObject.sigueObjeto();
+                checkClickOnObject(Input.GetMouseButtonDown(0), hit, "UnidadB(Clone)");
             }
-        
+        }
+    }
 
-
+    private void checkClickOnObject(bool isLeftClick, RaycastHit hit, string targetNameObject)
+    {
+        string nameOfObject = hit.collider.gameObject.name;
+        Debug.Log(nameOfObject);
+        if(nameOfObject == targetNameObject){
+            this.currentObject = hit.collider.GetComponent<MovimientoUnidadB>();
+        }else if(this.currentObject && !isLeftClick){
+            Debug.Log(hit.point);
+            this.currentObject.followStart(hit.point);
         }
     }
 }

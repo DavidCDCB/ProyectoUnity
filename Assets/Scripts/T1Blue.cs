@@ -6,9 +6,9 @@ public class T1Blue : MonoBehaviour
 {
     float initTime;
     float delayTime;
-    // Start is called before the first frame update
 
     //Contador aleatorio, cambiar a metodo mas optimo proximamente
+    //No se que ventaja tiene usar contadores frente a usar rangos de tiempo
     int num=0;
     int contador=0;
 
@@ -22,21 +22,19 @@ public class T1Blue : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-      if(this.contador>=this.num){
-        Debug.Log("se creo una unidad");
-
-        float numAleatorio=Random.Range(20f,90f);
-        Vector3 vectorPosicion=new Vector3(Mathf.Sin(numAleatorio)*10,0f,Mathf.Cos(numAleatorio)*10);
+        if(this.contador>=this.num){
+            Debug.Log("se creo una unidad");
+            float numAleatorio = Random.Range(20f,90f);
+            Vector3 vectorPosicion = new Vector3(Mathf.Sin(numAleatorio)*10,0f,Mathf.Cos(numAleatorio)*10);
 
             Instantiate(GameObject.Find("UnidadB"), 
                 transform.position+vectorPosicion, 
                 Quaternion.identity
             );
-
-        this.contador=0;
-        this.num=Random.Range(40,400);
-      }
-      contador++;
+            this.contador=0;
+            this.num=Random.Range(40,400);
+        }
+        contador++;
 
 /*      if(Time.time-initTime > this.delayTime){
             print("CREADO");
