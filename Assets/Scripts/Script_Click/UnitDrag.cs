@@ -109,10 +109,10 @@ public class UnitDrag : MonoBehaviour
             selectionBox.yMax = Input.mousePosition.y;
         }
 
-        print(selectionBox.xMin);
+/*         print(selectionBox.xMin);
         print(selectionBox.xMax);
         print(selectionBox.yMin);
-        print(selectionBox.yMax);
+        print(selectionBox.yMax); */
 
 
 

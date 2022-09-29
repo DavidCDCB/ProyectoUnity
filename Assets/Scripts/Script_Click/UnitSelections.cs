@@ -30,9 +30,8 @@ public class UnitSelections : MonoBehaviour
     {
         DeselectAll();
         unitsSelected.Add(unitToAdd);
-        unitToAdd.transform.GetChild(0).gameObject.SetActive(true);
-
-
+        this.marcaObjeto(unitToAdd);
+        unitToAdd.GetComponent<UnitMovement>().enabled = true;
     }
 
     public void ShiftClickSelect(GameObject unitToAdd)
@@ -40,12 +39,14 @@ public class UnitSelections : MonoBehaviour
         if (!unitsSelected.Contains(unitToAdd))
         {
             unitsSelected.Add(unitToAdd);
-            unitToAdd.transform.GetChild(0).gameObject.SetActive(true);
+            this.marcaObjeto(unitToAdd);
+            unitToAdd.GetComponent<UnitMovement>().enabled = true;
         }
         else
         {
             unitsSelected.Remove(unitToAdd);
-            unitToAdd.transform.GetChild(0).gameObject.SetActive(false);
+            this.desmarcaObjeto(unitToAdd);
+            unitToAdd.GetComponent<UnitMovement>().enabled = false;
         }
 
     }
@@ -56,17 +57,23 @@ public class UnitSelections : MonoBehaviour
         if (!unitsSelected.Contains(unitToAdd))
         {
             unitsSelected.Add(unitToAdd);
-            unitToAdd.transform.GetChild(0).gameObject.SetActive(true);
+            this.marcaObjeto(unitToAdd);
+            unitToAdd.GetComponent<UnitMovement>().enabled = true;
         }
-
-
     }
+
+
+
 
     public void DeselectAll()
     {
         foreach (var unit in unitsSelected)
         {
-            unit.transform.GetChild(0).gameObject.SetActive(false);
+
+            unit.GetComponent<UnitMovement>().enabled = false;
+            Debug.Log("Deselecciono la unidad");
+            this.desmarcaObjeto(unit);
+            
         }
 
     }
@@ -83,12 +90,26 @@ public class UnitSelections : MonoBehaviour
 
     void Start()
     {
-
+this.Deselect();
     }
 
     // Update is called once per frame
     void Update()
     {
 
+    }
+
+
+    //Cambiar si se agrega otro metodo de visualizar seleccion
+    //Evento que marca el objeto si se selecciona
+    public void marcaObjeto(GameObject unit)
+    {
+        unit.transform.GetChild(0).gameObject.SetActive(true);
+    }
+
+    //Evento que desmarca el objeto si se selecciona
+    public void desmarcaObjeto(GameObject unit)
+    {
+        unit.transform.GetChild(0).gameObject.SetActive(false);
     }
 }

@@ -2,8 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public class ScriptUnidad : MonoBehaviour
 {
+
+
+
     // Start is called before the first frame update
     void Start()
     {
@@ -15,4 +19,7 @@ public class ScriptUnidad : MonoBehaviour
     {
         UnitSelections.Instance.unitList.Remove(this.gameObject);
     }
+
+
+
 }

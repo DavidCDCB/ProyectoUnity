@@ -27,20 +27,18 @@ public class UnitClick : MonoBehaviour
             RaycastHit hit;
             Ray ray = myCam.ScreenPointToRay(Input.mousePosition);
 
-            print(ray);
-
             if (Physics.Raycast(ray, out hit, Mathf.Infinity, Clickable))
             {
 
-                print("Se hizo click en algo");
-
-                if (Input.GetKey(KeyCode.LeftShift))
+                if (Input.GetKey(KeyCode.A))
                 {
+                    Debug.Log("leftshift");
                     UnitSelections.Instance.ShiftClickSelect(hit.collider.gameObject);
                 }
 
                 else
                 {
+                    Debug.Log("normal");
                     UnitSelections.Instance.ClickSelect(hit.collider.gameObject);
 
                 }
@@ -49,9 +47,9 @@ public class UnitClick : MonoBehaviour
             }
 
             else{
-                print("no se hizo click");
                 if(!Input.GetKey(KeyCode.LeftShift))
                 {
+                    Debug.Log("deseleccionar");
                     UnitSelections.Instance.DeselectAll();
                 }
             }
