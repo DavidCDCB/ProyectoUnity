@@ -27,8 +27,8 @@ public class PlayerController : MonoBehaviour
     private void checkClickOnObject(bool isLeftClick, RaycastHit hit, string targetNameObject)
     {
         string nameOfObject = hit.collider.gameObject.name;
-        Debug.Log(nameOfObject);
         if(nameOfObject == targetNameObject){
+            Debug.Log(nameOfObject);
             this.currentObject = hit.collider.GetComponent<MovimientoUnidadB>();
         }else if(this.currentObject && !isLeftClick){
             Debug.Log(hit.point);

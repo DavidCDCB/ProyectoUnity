@@ -10,6 +10,9 @@ public class UnitSelections : MonoBehaviour
     private static UnitSelections _instance;
     public static UnitSelections Instance { get { return _instance; } }
 
+    public Material material_sel;
+    public Material material_des;
+
     void Awake()
     {
         //Si una instancia existe y no es esta
@@ -24,6 +27,7 @@ public class UnitSelections : MonoBehaviour
     void Start()
     {
         this.Deselect();
+        
     }
 
     void Update()
@@ -79,12 +83,20 @@ public class UnitSelections : MonoBehaviour
     //Evento que marca el objeto si se selecciona
     public void marcaObjeto(GameObject unit)
     {
-        unit.transform.GetChild(0).gameObject.SetActive(true);
+        if(unit.name.Contains("AutoTorre")){
+            unit.transform.GetChild(0).gameObject.SetActive(true);
+        }else{
+            unit.transform.GetComponent<MeshRenderer>().material = this.material_sel;
+        }
     }
 
     //Evento que desmarca el objeto si se selecciona
     public void desmarcaObjeto(GameObject unit)
     {
-        unit.transform.GetChild(0).gameObject.SetActive(false);
+        if(unit.name.Contains("AutoTorre")){
+            unit.transform.GetChild(0).gameObject.SetActive(false);
+        }else{
+            unit.transform.GetComponent<MeshRenderer>().material = this.material_des;
+        }
     }
 }
