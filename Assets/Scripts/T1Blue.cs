@@ -9,12 +9,12 @@ public class T1Blue : MonoBehaviour
 
     //Contador aleatorio, cambiar a metodo mas optimo proximamente
     //No se que ventaja tiene usar contadores frente a usar rangos de tiempo
-    int num=0;
-    int contador=0;
+    int num = 0;
+    int contador = 0;
 
     void Start()
     {
-        this.num=Random.Range(40,400);
+        this.num = Random.Range(40,400);
         //this.delayTime = 3;
         //this.initTime = Time.time;
     }

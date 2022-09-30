@@ -10,20 +10,25 @@ public class UnitSelections : MonoBehaviour
     private static UnitSelections _instance;
     public static UnitSelections Instance { get { return _instance; } }
 
-    // Start is called before the first frame update
     void Awake()
     {
         //Si una instancia existe y no es esta
-        if (_instance != null && _instance != this)
-        {
-            Destroy(this.gameObject);
-        }
-
         //Sino establece esta como la instancia
-        else
-        {
+        if (_instance != null && _instance != this){
+            Destroy(this.gameObject);
+        }else{ 
             _instance = this;
         }
+    }
+
+    void Start()
+    {
+        this.Deselect();
+    }
+
+    void Update()
+    {
+
     }
 
     public void ClickSelect(GameObject unitToAdd)
@@ -36,69 +41,39 @@ public class UnitSelections : MonoBehaviour
 
     public void ShiftClickSelect(GameObject unitToAdd)
     {
-        if (!unitsSelected.Contains(unitToAdd))
-        {
+        if (!unitsSelected.Contains(unitToAdd)){
             unitsSelected.Add(unitToAdd);
             this.marcaObjeto(unitToAdd);
             unitToAdd.GetComponent<UnitMovement>().enabled = true;
-        }
-        else
-        {
+        }else{
             unitsSelected.Remove(unitToAdd);
             this.desmarcaObjeto(unitToAdd);
             unitToAdd.GetComponent<UnitMovement>().enabled = false;
         }
-
     }
 
     public void DragSelect(GameObject unitToAdd)
     {
-
-        if (!unitsSelected.Contains(unitToAdd))
-        {
+        if (!unitsSelected.Contains(unitToAdd)){
             unitsSelected.Add(unitToAdd);
             this.marcaObjeto(unitToAdd);
             unitToAdd.GetComponent<UnitMovement>().enabled = true;
         }
     }
 
-
-
-
     public void DeselectAll()
     {
-        foreach (var unit in unitsSelected)
-        {
-
+        foreach (var unit in unitsSelected){
             unit.GetComponent<UnitMovement>().enabled = false;
             Debug.Log("Deselecciono la unidad");
             this.desmarcaObjeto(unit);
-            
         }
-
     }
 
     public void Deselect()
     {
-
         unitsSelected.Clear();
-
     }
-
-
-
-
-    void Start()
-    {
-this.Deselect();
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
-
 
     //Cambiar si se agrega otro metodo de visualizar seleccion
     //Evento que marca el objeto si se selecciona
