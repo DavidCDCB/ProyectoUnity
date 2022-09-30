@@ -17,17 +17,20 @@ public class UnitSelections : MonoBehaviour
     {
         //Si una instancia existe y no es esta
         //Sino establece esta como la instancia
-        if (_instance != null && _instance != this){
+        if (_instance != null && _instance != this)
+        {
             Destroy(this.gameObject);
-        }else{ 
+        }
+        else
+        {
             _instance = this;
         }
     }
 
     void Start()
     {
-        this.Deselect();
-        
+        this.DeselectAll();
+
     }
 
     void Update()
@@ -41,15 +44,19 @@ public class UnitSelections : MonoBehaviour
         unitsSelected.Add(unitToAdd);
         this.marcaObjeto(unitToAdd);
         unitToAdd.GetComponent<UnitMovement>().enabled = true;
+
     }
 
     public void ShiftClickSelect(GameObject unitToAdd)
     {
-        if (!unitsSelected.Contains(unitToAdd)){
+        if (!unitsSelected.Contains(unitToAdd))
+        {
             unitsSelected.Add(unitToAdd);
             this.marcaObjeto(unitToAdd);
             unitToAdd.GetComponent<UnitMovement>().enabled = true;
-        }else{
+        }
+        else
+        {
             unitsSelected.Remove(unitToAdd);
             this.desmarcaObjeto(unitToAdd);
             unitToAdd.GetComponent<UnitMovement>().enabled = false;
@@ -58,7 +65,8 @@ public class UnitSelections : MonoBehaviour
 
     public void DragSelect(GameObject unitToAdd)
     {
-        if (!unitsSelected.Contains(unitToAdd)){
+        if (!unitsSelected.Contains(unitToAdd))
+        {
             unitsSelected.Add(unitToAdd);
             this.marcaObjeto(unitToAdd);
             unitToAdd.GetComponent<UnitMovement>().enabled = true;
@@ -67,36 +75,43 @@ public class UnitSelections : MonoBehaviour
 
     public void DeselectAll()
     {
-        foreach (var unit in unitsSelected){
-            unit.GetComponent<UnitMovement>().enabled = false;
+
+        //No se si esta bien, tengo que organizarlo luego
+        for (int i = 0; i < unitsSelected.Count; i++)
+        {   unitsSelected[i].GetComponent<UnitMovement>().enabled = false;
             Debug.Log("Deselecciono la unidad");
-            this.desmarcaObjeto(unit);
+            this.desmarcaObjeto(unitsSelected[i]);
+            unitsSelected.RemoveAt(i);
+            i--;
+
         }
+
+
     }
 
-    public void Deselect()
+    public void Deselect(GameObject unit)
     {
-        unitsSelected.Clear();
+
+        unit.GetComponent<UnitMovement>().enabled = false;
+        Debug.Log("Deselecciono la unidad");
+        this.desmarcaObjeto(unit);
+        unitsSelected.Remove(unit);
     }
 
     //Cambiar si se agrega otro metodo de visualizar seleccion
     //Evento que marca el objeto si se selecciona
     public void marcaObjeto(GameObject unit)
     {
-        if(unit.name.Contains("AutoTorre")){
-            unit.transform.GetChild(0).gameObject.SetActive(true);
-        }else{
-            unit.transform.GetComponent<MeshRenderer>().material = this.material_sel;
-        }
+
+        unit.transform.GetComponent<MeshRenderer>().material = this.material_sel;
+
     }
 
     //Evento que desmarca el objeto si se selecciona
     public void desmarcaObjeto(GameObject unit)
     {
-        if(unit.name.Contains("AutoTorre")){
-            unit.transform.GetChild(0).gameObject.SetActive(false);
-        }else{
-            unit.transform.GetComponent<MeshRenderer>().material = this.material_des;
-        }
+
+        unit.transform.GetComponent<MeshRenderer>().material = this.material_des;
+
     }
 }

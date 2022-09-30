@@ -27,12 +27,14 @@ public class UnitDrag : MonoBehaviour
     {
         //En click
         if (Input.GetMouseButtonDown(0)){
+
             this.startPosition = Input.mousePosition;
             this.selectionBox = new Rect();
         }
 
         //Durante
         if (Input.GetMouseButton(0)){
+
             this.endPosition = Input.mousePosition;
             DrawVisual();
             DrawSelection();
@@ -40,10 +42,13 @@ public class UnitDrag : MonoBehaviour
 
         //Al final
         if (Input.GetMouseButtonUp(0)){
+
             SelectUnits();
             this.startPosition = Vector2.zero;
             this.endPosition = Vector2.zero;
             DrawVisual();
+            DrawSelection();
+
         }
     }
 

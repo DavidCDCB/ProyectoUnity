@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.10631817, g: 0.21188313, b: 0.3015579, a: 1}
+  m_IndirectSpecularColor: {r: 0.10631844, g: 0.2118834, b: 0.30155924, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -383,7 +383,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 0.006289184, b: 0.006289184, a: 0.4745098}
+  m_Color: {r: 0.8301887, g: 0.74176484, b: 0.25584427, a: 0.4745098}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -981,7 +981,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1148130909}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -24.1, y: 1.04, z: 52}
+  m_LocalPosition: {x: -48, y: 1.04, z: 52}
   m_LocalScale: {x: 2.2182143, y: 2.0289066, z: 1.9844164}
   m_ConstrainProportionsScale: 1
   m_Children: []
@@ -1055,13 +1055,13 @@ NavMeshAgent:
   m_Enabled: 1
   m_AgentTypeID: 0
   m_Radius: 0.5
-  m_Speed: 20
-  m_Acceleration: 20
+  m_Speed: 21.01
+  m_Acceleration: 20.4
   avoidancePriority: 50
   m_AngularSpeed: 120
-  m_StoppingDistance: 0
+  m_StoppingDistance: 1.7
   m_AutoTraverseOffMeshLink: 1
-  m_AutoBraking: 1
+  m_AutoBraking: 0
   m_AutoRepath: 1
   m_Height: 1
   m_BaseOffset: 0.5
@@ -1235,7 +1235,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: c9727c02778f5a99bbb4570b4b0130b4, type: 2}
+  - {fileID: 2100000, guid: 7d957b13ba07412449dd9ec2e270bf5d, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1364,7 +1364,7 @@ MonoBehaviour:
   unitList: []
   unitsSelected: []
   material_sel: {fileID: 2100000, guid: f464f1df1864f84ecbeb28815bb7feef, type: 2}
-  material_des: {fileID: 2100000, guid: c9727c02778f5a99bbb4570b4b0130b4, type: 2}
+  material_des: {fileID: 2100000, guid: 7d957b13ba07412449dd9ec2e270bf5d, type: 2}
 --- !u!1 &2015549287
 GameObject:
   m_ObjectHideFlags: 0
@@ -1497,9 +1497,6 @@ MonoBehaviour:
   Clickable:
     serializedVersion: 2
     m_Bits: 256
-  ground:
-    serializedVersion: 2
-    m_Bits: 0
 --- !u!1 &2143815761
 GameObject:
   m_ObjectHideFlags: 0
