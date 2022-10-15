@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.10631844, g: 0.2118834, b: 0.30155924, a: 1}
+  m_IndirectSpecularColor: {r: 0.10631817, g: 0.21188313, b: 0.3015579, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -169,6 +169,7 @@ GameObject:
   - component: {fileID: 111987144}
   - component: {fileID: 111987143}
   - component: {fileID: 111987142}
+  - component: {fileID: 111987146}
   m_Layer: 0
   m_Name: t1Red
   m_TagString: Untagged
@@ -254,6 +255,21 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &111987146
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 111987141}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aec56d37cbc6b634a9d85c1729d8d83e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  atacado: 0
+  mAtacado: {fileID: 2100000, guid: c9727c02778f5a99bbb4570b4b0130b4, type: 2}
+  normal: {fileID: 2100000, guid: a7bbd426711114b9c904a064f84c4ce1, type: 2}
 --- !u!1 &233042336
 GameObject:
   m_ObjectHideFlags: 0
@@ -1025,10 +1041,10 @@ SphereCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1148130909}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.5
+  m_Radius: 2.45
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &1148130917
 MonoBehaviour:
@@ -1300,11 +1316,14 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1723196741}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: aec56d37cbc6b634a9d85c1729d8d83e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  atacado: 0
+  mAtacado: {fileID: 0}
+  normal: {fileID: 0}
 --- !u!114 &1723196748
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1312,11 +1331,14 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1723196741}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: aec56d37cbc6b634a9d85c1729d8d83e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  atacado: 0
+  mAtacado: {fileID: 0}
+  normal: {fileID: 0}
 --- !u!1 &1792810542
 GameObject:
   m_ObjectHideFlags: 0
