@@ -3,10 +3,9 @@ using UnityEngine;
 
 public class ScriptUnidad : MonoBehaviour
 {
-    private int hp = 100;
-    private int cantidad = 0;
     private GameObject unidadApuntada;
     private bool atacando = false;
+    public string nombreAtacado = "Red";
 
     void Start()
     {
@@ -16,15 +15,16 @@ public class ScriptUnidad : MonoBehaviour
     void OnDestroy()
     {
         UnitSelections.Instance.unitList.Remove(this.gameObject);
+        UnitSelections.Instance.unitsSelected.Remove(this.gameObject);
     }
 
     void Update(){}
 
     void OnTriggerEnter(Collider collider)
     {
-        if(collider.gameObject.name.Contains("Red")){
+        if(collider.gameObject.tag.Contains(nombreAtacado)){
             this.atacando = false;
-            Debug.Log("ACTIVADO");
+            Debug.Log(collider.gameObject.tag);
             if(unidadApuntada == null){
                 this.unidadApuntada = collider.gameObject;
             }
@@ -33,32 +33,23 @@ public class ScriptUnidad : MonoBehaviour
 
     void OnTriggerStay(Collider collider) 
     {
-        if(collider.gameObject.name.Contains("Red")){
-            Debug.Log("Dentro");
+        if(collider.gameObject.tag.Contains(nombreAtacado)){
+            Debug.Log(collider.gameObject.name);
             StartCoroutine(HaceDanio(Random.Range(5,20), 3, collider.gameObject));
         }
     }
 
     void OnTriggerExit(Collider collider) 
     {
-        if(collider.gameObject.name.Contains("Red")){
+        if(collider.gameObject.tag.Contains(nombreAtacado)){
             Debug.Log("desactivado");
             this.unidadApuntada = null;
         }
     }
 
-    public int getHp()
-    {
-        return this.hp;
-    }
-    public void setHp(int newHp)
-    {
-        this.hp = newHp;
-    }
-
     IEnumerator HaceDanio(double cantidad, int segundos, GameObject unidadApuntada)
     {
-        scriptTorre scriptUnidad = unidadApuntada.GetComponent<scriptTorre>();
+        ScriptAtacado scriptUnidad = unidadApuntada.GetComponent<ScriptAtacado>();
         
         if(this.atacando == false){
             Debug.Log(scriptUnidad.getHp());

@@ -102,7 +102,7 @@ public class UnitSelections : MonoBehaviour
     //Evento que marca el objeto si se selecciona
     public void marcaObjeto(GameObject unit)
     {
-
+        this.material_des = unit.transform.GetComponent<MeshRenderer>().material;
         unit.transform.GetComponent<MeshRenderer>().material = this.material_sel;
 
     }

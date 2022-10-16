@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class scriptTorre : MonoBehaviour
+public class ScriptAtacado : MonoBehaviour
 {
     private double hp = 100;
     public bool atacado;
@@ -18,10 +18,10 @@ public class scriptTorre : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(atacado == false){
-            this.transform.GetComponent<MeshRenderer>().material = this.normal;
-        }else{
+        this.transform.GetComponent<MeshRenderer>().material = this.normal;
+        if(atacado == true){
             this.transform.GetComponent<MeshRenderer>().material = this.mAtacado;
+            this.atacado = false;
         }
     }
 
