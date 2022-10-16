@@ -33,9 +33,8 @@ public class ScriptUnidad : MonoBehaviour
 
     void OnTriggerStay(Collider collider) 
     {
-        if(collider.gameObject.tag.Contains(nombreAtacado)){
-            Debug.Log(collider.gameObject.name);
-            StartCoroutine(HaceDanio(Random.Range(5,20), 3, collider.gameObject));
+        if(collider.gameObject.tag.Contains(nombreAtacado) && unidadApuntada != null){
+            StartCoroutine(HaceDanio(Random.Range(5,20), 3, this.unidadApuntada));
         }
     }
 
@@ -47,12 +46,24 @@ public class ScriptUnidad : MonoBehaviour
         }
     }
 
+    void Disparar()
+    {
+        BalaScript enemigo = Instantiate(GameObject.Find("Bala"), 
+            transform.position, 
+            Quaternion.identity
+        ).GetComponent<BalaScript>();
+        enemigo.nombreAtacado = this.nombreAtacado;
+        enemigo.enemy = this.unidadApuntada.transform;
+        enemigo.initTime = Time.time;
+    }
+
     IEnumerator HaceDanio(double cantidad, int segundos, GameObject unidadApuntada)
     {
         ScriptAtacado scriptUnidad = unidadApuntada.GetComponent<ScriptAtacado>();
         
         if(this.atacando == false){
             Debug.Log(scriptUnidad.getHp());
+            this.Disparar();
             scriptUnidad.setHp(scriptUnidad.getHp() - cantidad);
             this.atacando = true;
             scriptUnidad.atacado = true;
