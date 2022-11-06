@@ -6,6 +6,7 @@ TagManager:
   tags:
   - BlueTeam
   - RedTeam
+  - BlueTower
   layers:
   - Default
   - TransparentFX

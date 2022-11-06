@@ -13,7 +13,7 @@ public class BalaScript : MonoBehaviour
     void Start()
     {
         this.speed = 50;
-        this.delayTime = 1;
+        this.delayTime = 0.5f;
     }
 
     // Update is called once per frame

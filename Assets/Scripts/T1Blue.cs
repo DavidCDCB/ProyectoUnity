@@ -7,26 +7,20 @@ public class T1Blue : MonoBehaviour
     float initTime;
     float delayTime;
     public Material material_des;
-
-    //Contador aleatorio, cambiar a metodo mas optimo proximamente
-    //No se que ventaja tiene usar contadores frente a usar rangos de tiempo
     int num = 0;
-    int contador = 0;
 
     void Start()
     {
-        //this.num = Random.Range(40,400);
-        //this.delayTime = 3;
-        //this.initTime = Time.time;
+        this.delayTime = Random.Range(1,3);
+        this.initTime = Time.time;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(this.contador >= 100){
-            //Debug.Log("se creo una unidad");
+        if(Time.time-initTime > this.delayTime){
             float numAleatorio = Random.Range(20f,90f);
-            Vector3 vectorPosicion = new Vector3(Mathf.Sin(numAleatorio)*10,0f,Mathf.Cos(numAleatorio)*10);
+            Vector3 vectorPosicion = new Vector3(Mathf.Sin(numAleatorio)*5,0f,Mathf.Cos(numAleatorio)*5);
 
             GameObject tmp=Instantiate(GameObject.Find("UnidadB"), 
                 transform.position+vectorPosicion, 
@@ -34,19 +28,9 @@ public class T1Blue : MonoBehaviour
             );
 
             tmp.transform.GetComponent<MeshRenderer>().material = this.material_des;
-            this.contador=0;
-            this.num=Random.Range(40,400);
-        }
-        contador++;
-
-/*      if(Time.time-initTime > this.delayTime){
-            print("CREADO");
-            Instantiate(GameObject.Find("UnidadB"), 
-                transform.position, 
-                Quaternion.identity
-            );
             this.initTime = Time.time;
-        }  */
+            this.delayTime = Random.Range(1,5);
+        }
 
         //StartCoroutine(ExampleCoroutine());
     }
