@@ -24,8 +24,9 @@ public class UnidadEnemiga : MonoBehaviour
 
     void Start(){
         this.myAgent = GetComponent<NavMeshAgent>();
+        this.myAgent.speed = 10;
         this.objetivos = GameObject.FindGameObjectsWithTag("BlueTower").ToList();
-        this.delayTime = 5;
+        this.delayTime = Random.Range(5,20);
     }
 
     void Update(){
@@ -59,7 +60,7 @@ public class UnidadEnemiga : MonoBehaviour
     void OnTriggerStay(Collider collider) 
     {
         if(collider.gameObject.tag.Contains(nombreAtacado) && unidadApuntada != null){
-            StartCoroutine(HaceDanio(Random.Range(5,20), 3, this.unidadApuntada));
+            StartCoroutine(HaceDanio(Random.Range(5,20), 5, this.unidadApuntada));
         }
     }
 

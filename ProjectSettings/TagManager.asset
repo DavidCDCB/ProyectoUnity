@@ -7,6 +7,13 @@ TagManager:
   - BlueTeam
   - RedTeam
   - BlueTower
+  - Carro_Ali
+  - u-Blue-t1
+  - u-Blue-t2
+  - u-Blue-t3
+  - u-Red-t1
+  - u-Red-t2
+  - u-Red-t3
   layers:
   - Default
   - TransparentFX

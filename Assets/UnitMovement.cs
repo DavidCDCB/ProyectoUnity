@@ -12,6 +12,7 @@ public class UnitMovement : MonoBehaviour
     {
         myCam = Camera.main;
         myAgent = GetComponent<NavMeshAgent>();
+        this.myAgent.speed = 10;
     }
 
     void Update()

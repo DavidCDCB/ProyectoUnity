@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class ScriptAtacado : MonoBehaviour
 {
-    private double hp = 100;
+    public double hp = 100;
     public bool atacado;
     public Material mAtacado;
     public Material normal;

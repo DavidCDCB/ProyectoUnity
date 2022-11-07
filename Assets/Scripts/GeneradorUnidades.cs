@@ -1,35 +1,48 @@
+using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
-public class T1Blue : MonoBehaviour
+public class GeneradorUnidades : MonoBehaviour
 {
-    float initTime;
-    float delayTime;
+    private float initTime;
+    private float delayTime;
+    public float delayTimeMax;
     public Material material_des;
-    int num = 0;
+    private int unidades;
+
+    public string towerId = "";
+    public string originalName = "";
+    public string prefixTag = "";
 
     void Start()
     {
-        this.delayTime = Random.Range(1,3);
+        this.delayTime = Random.Range(1,delayTimeMax);
         this.initTime = Time.time;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(Time.time-initTime > this.delayTime){
+        if(Time.time-initTime > this.delayTime && this.unidades < 5){
             float numAleatorio = Random.Range(20f,90f);
             Vector3 vectorPosicion = new Vector3(Mathf.Sin(numAleatorio)*5,0f,Mathf.Cos(numAleatorio)*5);
 
-            GameObject tmp=Instantiate(GameObject.Find("UnidadB"), 
+            GameObject tmp = Instantiate(GameObject.Find(originalName), 
                 transform.position+vectorPosicion, 
                 Quaternion.identity
             );
+            tmp.tag = this.prefixTag+this.towerId;
+            this.unidades = GameObject.FindGameObjectsWithTag(tmp.tag).ToList().Count;
 
             tmp.transform.GetComponent<MeshRenderer>().material = this.material_des;
             this.initTime = Time.time;
-            this.delayTime = Random.Range(1,5);
+            this.delayTime = Random.Range(1,delayTimeMax);
+        }
+
+        if(this.unidades > 0){
+            this.unidades = GameObject.FindGameObjectsWithTag(this.prefixTag+this.towerId).ToList().Count;
         }
 
         //StartCoroutine(ExampleCoroutine());
