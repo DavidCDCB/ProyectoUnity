@@ -4,24 +4,11 @@
 TagManager:
   serializedVersion: 2
   tags:
-<<<<<<< HEAD
   - Base
   - Tower_Player
   - Tower_Enemy
   - Solider_Player
   - Solider_Enemy
-=======
-  - BlueTeam
-  - RedTeam
-  - BlueTower
-  - Carro_Ali
-  - u-Blue-t1
-  - u-Blue-t2
-  - u-Blue-t3
-  - u-Red-t1
-  - u-Red-t2
-  - u-Red-t3
->>>>>>> 5abfee9285267014e05da8613f46f91f6ae07fc0
   layers:
   - Default
   - TransparentFX

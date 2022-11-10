@@ -4,24 +4,8 @@
 TagManager:
   serializedVersion: 2
   tags:
-<<<<<<< HEAD
-  - Base
-  - Tower_Player
-  - Tower_Enemy
-  - Solider_Player
-  - Solider_Enemy
-=======
   - BlueTeam
   - RedTeam
-  - BlueTower
-  - Carro_Ali
-  - u-Blue-t1
-  - u-Blue-t2
-  - u-Blue-t3
-  - u-Red-t1
-  - u-Red-t2
-  - u-Red-t3
->>>>>>> 5abfee9285267014e05da8613f46f91f6ae07fc0
   layers:
   - Default
   - TransparentFX
@@ -58,10 +42,4 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
-    locked: 0
-  - name: Tower
-    uniqueID: 2084257911
-    locked: 0
-  - name: Solider
-    uniqueID: 1634204429
     locked: 0
