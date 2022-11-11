@@ -41,9 +41,9 @@ public class Manager_Game : MonoBehaviour
     public GameObject jugador1;
     public GameObject jugador2;
 
-    private List<GameObject> unidadesAliado= new List<GameObject>();
-    private List<GameObject> unidadesEnemigo= new List<GameObject>();
+    private List<GameObject> unidades_jugador1 = new List<GameObject>();
 
+    private List<GameObject> unidades_jugador2 = new List<GameObject>();
 
 
     [Header("Prefabs")]
@@ -66,18 +66,20 @@ public class Manager_Game : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
+
+        muevepj();
     }
 
     public void creaSoldado1()
     {
         Vector3[] posiciones = this.torres_Jugador1[0].GetComponent<Tower>().devuelve_posiciones();
 
-
-        this.unidadesAliado.Add(UnityEngine.Object.Instantiate(this.soldadoA,posiciones[0],Quaternion.identity));
-        this.unidadesAliado.Add(UnityEngine.Object.Instantiate(this.soldadoA,posiciones[1],Quaternion.identity));
-        this.unidadesAliado.Add(UnityEngine.Object.Instantiate(this.soldadoA,posiciones[2],Quaternion.identity));
-        this.unidadesAliado.Add(UnityEngine.Object.Instantiate(this.soldadoA,posiciones[3],Quaternion.identity));
-        this.unidadesAliado.Add(UnityEngine.Object.Instantiate(this.soldadoA,posiciones[4],Quaternion.identity)); 
+        this.unidades_jugador1.Add(UnityEngine.Object.Instantiate(this.soldadoA, posiciones[0], Quaternion.identity));
+        this.unidades_jugador1.Add(UnityEngine.Object.Instantiate(this.soldadoA, posiciones[1], Quaternion.identity));
+        this.unidades_jugador1.Add(UnityEngine.Object.Instantiate(this.soldadoA, posiciones[2], Quaternion.identity));
+        this.unidades_jugador1.Add(UnityEngine.Object.Instantiate(this.soldadoA, posiciones[3], Quaternion.identity));
+        this.unidades_jugador1.Add(UnityEngine.Object.Instantiate(this.soldadoA, posiciones[4], Quaternion.identity));
 
     }
 
@@ -85,13 +87,76 @@ public class Manager_Game : MonoBehaviour
     {
         Vector3[] posiciones = this.torres_Jugador1[0].GetComponent<Tower>().devuelve_posiciones();
 
-        this.unidadesAliado.Add(UnityEngine.Object.Instantiate(this.soldadoB,posiciones[1],Quaternion.identity));
-        this.unidadesAliado.Add(UnityEngine.Object.Instantiate(this.soldadoB,posiciones[2],Quaternion.identity));
-        this.unidadesAliado.Add(UnityEngine.Object.Instantiate(this.soldadoB,posiciones[3],Quaternion.identity)); 
+        this.unidades_jugador1.Add(UnityEngine.Object.Instantiate(this.soldadoB, posiciones[1], Quaternion.identity));
+        this.unidades_jugador1.Add(UnityEngine.Object.Instantiate(this.soldadoB, posiciones[2], Quaternion.identity));
+        this.unidades_jugador1.Add(UnityEngine.Object.Instantiate(this.soldadoB, posiciones[3], Quaternion.identity));
 
     }
 
+    public List<GameObject> get_unidades_jugador1()
+    {
+        return this.unidades_jugador1;
+    }
 
+    public List<GameObject> get_unidades_jugador2()
+    {
+        return this.unidades_jugador2;
+    }
+
+    public GameObject[] get_bases()
+    {
+        return this.bases;
+    }
+
+    public GameObject[] get_torres_jugador1()
+    {
+        return this.torres_Jugador1;
+    }
+
+    public GameObject[] get_torres_jugador2()
+    {
+        return this.torres_Jugador2;
+    }
+
+
+    //-------------------------------BORRAR LUEGO NO TUVE TIEMPO PARA ORGANIZARLO---------------------
+    void muevepj()
+    {
+
+        if (Input.GetKey(KeyCode.W))
+        {
+            this.jugador1.transform.Translate(new Vector3(0.1f, 0, 0));
+        }
+
+        if (Input.GetKey(KeyCode.S))
+        {
+            this.jugador1.transform.Translate(new Vector3(-0.1f, 0, 0));
+        }
+        if (Input.GetKey(KeyCode.D))
+        {
+            this.jugador1.transform.Translate(new Vector3(0, 0, 0.1f));
+        }
+
+        if (Input.GetKey(KeyCode.A))
+        {
+            this.jugador1.transform.Translate(new Vector3(0, 0, -0.1f));
+        }
+
+        if (Input.GetKeyDown(KeyCode.F))
+        {
+            this.jugador1.transform.Rotate(0, 20, 0);
+        }
+        if (Input.GetKeyDown(KeyCode.G))
+        {
+            this.jugador1.transform.Rotate(0, -20, 0);
+        }
+
+
+
+
+
+
+    }
 
 
 

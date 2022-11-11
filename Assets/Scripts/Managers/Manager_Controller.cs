@@ -4,6 +4,11 @@ using UnityEngine;
 
 public class Manager_Controller : MonoBehaviour
 {
+    public GameObject menu;
+
+
+    public bool menuActive=false;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -13,21 +18,42 @@ public class Manager_Controller : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown("z"))
-        {
-            Manager_Game.Instance.creaSoldado1();
-            print("z key was pressed");
-        }
 
+        //Borrar luego
         if (Input.GetKeyDown("x"))
         {
             Manager_Game.Instance.creaSoldado2();
-            print("x key was pressed");
         }
 
         if (Input.GetKeyDown("c"))
         {
             print("c key was pressed");
         }
+
+
+        //Varianbles de teclado
+        this.activaMenu();
+
+
     }
+
+    //Teclado
+    void activaMenu(){
+        if (Input.GetKeyDown("q"))
+        {
+            menuActive=!menuActive;
+        }
+
+    }
+
+    //¿¿¿???
+
+    public bool isMenuActive(){
+        return menuActive;
+    }
+
+
+
+
+
 }
