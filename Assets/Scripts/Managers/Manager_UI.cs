@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.UI;
 public class Manager_UI : MonoBehaviour
 {
 
@@ -18,9 +18,21 @@ public class Manager_UI : MonoBehaviour
     public GameObject Time_UI;
 
 
+    
+
+
     [Header("Test")]
 
     public RectTransform visual_box;
+
+    public Image player1UI;
+    public Image player2UI;
+
+
+
+
+
+
 
     //--------------------ELIMINAR LUEGO------------------
     public List<RectTransform> Informacion;
@@ -49,9 +61,12 @@ public class Manager_UI : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void LateUpdate()
     {
+        
 
+        this.player1UI.fillAmount=this.Manager_Game.GetComponent<Manager_Game>().vida_jugador1T();
+        this.player2UI.fillAmount=this.Manager_Game.GetComponent<Manager_Game>().vida_jugador2T();
         //BORRAR LUEGO
         this.imprimeInfo();
         this.imprime_minimenu();
@@ -221,7 +236,7 @@ public class Manager_UI : MonoBehaviour
         //Imprime jugador
 
         //Imprime torres
-        foreach (GameObject soldado in this.Manager_Game.GetComponent<Manager_Game>().get_bases())
+        foreach (Building soldado in this.Manager_Game.GetComponent<Manager_Game>().get_bases())
         {
             float x = soldado.transform.position.x + offsetx;
             float y = soldado.transform.position.z + offsety;
@@ -239,10 +254,10 @@ public class Manager_UI : MonoBehaviour
         }
 
         //Imprime torres
-        foreach (GameObject soldado in this.Manager_Game.GetComponent<Manager_Game>().get_torres_jugador1())
+        foreach (Building torres  in this.Manager_Game.GetComponent<Manager_Game>().get_torres_jugador1())
         {
-            float x = soldado.transform.position.x + offsetx;
-            float y = soldado.transform.position.z + offsety;
+            float x = torres.transform.position.x + offsetx;
+            float y = torres.transform.position.z + offsety;
 
             Vector2 boxStart = new Vector2((x * 1) - 10, (y * 1) - 10);
             Vector2 boxEnd = new Vector2((x * 1) + 10, (y * 1) + 10);
@@ -258,7 +273,7 @@ public class Manager_UI : MonoBehaviour
         }
 
         //Imprime torres
-        foreach (GameObject soldado in this.Manager_Game.GetComponent<Manager_Game>().get_torres_jugador2())
+        foreach (Building soldado in this.Manager_Game.GetComponent<Manager_Game>().get_torres_jugador2())
         {
             float x = soldado.transform.position.x + offsetx;
             float y = soldado.transform.position.z + offsety;
@@ -317,7 +332,7 @@ public class Manager_UI : MonoBehaviour
         //Imprime jugador
 
         //Imprime torres
-        foreach (GameObject soldado in this.Manager_Game.GetComponent<Manager_Game>().get_bases())
+        foreach (Building soldado in this.Manager_Game.GetComponent<Manager_Game>().get_bases())
         {
             float x = soldado.transform.position.x;
             float y = soldado.transform.position.z;
@@ -335,7 +350,7 @@ public class Manager_UI : MonoBehaviour
         }
 
         //Imprime torres
-        foreach (GameObject soldado in this.Manager_Game.GetComponent<Manager_Game>().get_torres_jugador1())
+        foreach (Building soldado in this.Manager_Game.GetComponent<Manager_Game>().get_torres_jugador1())
         {
             float x = soldado.transform.position.x;
             float y = soldado.transform.position.z;
@@ -355,7 +370,7 @@ public class Manager_UI : MonoBehaviour
         }
 
         //Imprime torres
-        foreach (GameObject soldado in this.Manager_Game.GetComponent<Manager_Game>().get_torres_jugador2())
+        foreach (Building soldado in this.Manager_Game.GetComponent<Manager_Game>().get_torres_jugador2())
         {
             float x = soldado.transform.position.x;
             float y = soldado.transform.position.z;

@@ -13,13 +13,13 @@ public class Building : MonoBehaviour
         Ninguno
     }
 
-        public enum Tipo_Cons_enum
+    public enum Tipo_Cons_enum
     {
         Torre,
         Base
     }
 
-        public enum Color_enum
+    public enum Color_enum
     {
         Rojo,
         Azul,
@@ -29,7 +29,8 @@ public class Building : MonoBehaviour
 
 
     public enum Estado_Cons_enum
-    {   Normal,
+    {
+        Normal,
         EnAtaque,
         Espera_regeneracion,
         SinEscudo
@@ -41,11 +42,32 @@ public class Building : MonoBehaviour
     public Color_enum color;
     public Estado_Cons_enum Normal;
 
-    public float id;
-    
-    public float vida_base;
+    [Header("Datos")]
 
+    public float id;
+    public float vida_base;
     public float vida;
 
+    [Header("Conexiones")]
+    public List<Building> caminos;
+
+    public List<Building> get_caminos()
+    {
+        return this.caminos;
+    }
+
+    public float porc_vida()
+    {
+        if (this.vida_base > 0 && this.vida > 0)
+        {
+            return this.vida / this.vida_base;
+        }
+        else
+        {
+            return 0;
+        }
+
+
+    }
 
 }

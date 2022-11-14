@@ -41,17 +41,20 @@ public class Unit : MonoBehaviour
 
         [Header("Estados")]
         //Valores
-        protected Soldado_enum tipoSoldado;
-        protected Color_enum colorSoldado;
+        public Soldado_enum tipoSoldado;
+        public Color_enum colorSoldado;
 
-        protected Jugador_enum tipoJugador;
-        protected Estado_enum estadoJugador;
+        public Jugador_enum tipoJugador;
+        public Estado_enum estadoJugador;
 
         [Header("Variables")]
         public float vida_base;
         public float vida;
         public float danio; //Cambiar luego si hay multiples ataques
 
+
+        [Header("Datos AI")]
+        protected List<Transform> puntos_viaje;
 
 
 
