@@ -41,16 +41,18 @@ public class Manager_Game : MonoBehaviour
     public GameObject jugador1;
     public GameObject jugador2;
 
-    private List<GameObject> soldados_jugador1 = new List<GameObject>();
+    private List<Unit> soldados_jugador1 = new List<Unit>();
     private List<Unit> vigias_jugador1 = new List<Unit>();
 
-    private List<GameObject> soldados_jugador2 = new List<GameObject>();
+    private List<Unit> soldados_jugador2 = new List<Unit>();
     private List<Unit> vigias_jugador2 = new List<Unit>();
 
 
     [Header("Prefabs")]
 
     public GameObject vigia;
+
+    public GameObject vigia_enemigo;
     public GameObject soldadoA;
     public GameObject soldadoB;
     public GameObject soldadoC;
@@ -74,10 +76,11 @@ public class Manager_Game : MonoBehaviour
 
         //Se crea la lista de caminos para el jugador 1
         camino_J1aJ2 = this.caminos_A_a_B(this.torres_Jugador1[0], this.torres_Jugador2[0]);
-
-/*         //Se crea la lista de caminos para el jugador 2
         camino_J2aJ1 = this.caminos_A_a_B(this.torres_Jugador2[0], this.torres_Jugador1[0]);
- */
+
+        /*         //Se crea la lista de caminos para el jugador 2
+                camino_J2aJ1 = this.caminos_A_a_B(this.torres_Jugador2[0], this.torres_Jugador1[0]);
+         */
     }
 
     // Update is called once per frame
@@ -86,9 +89,9 @@ public class Manager_Game : MonoBehaviour
 
     }
 
-        void FixedUpdate()
+    void FixedUpdate()
     {
-                muevepj();
+        muevepj();
         creadores();
     }
 
@@ -97,7 +100,7 @@ public class Manager_Game : MonoBehaviour
         if (tiempo_crea_vigia <= 0)
         {
             StartCoroutine(crea_vigia());
-/*             StartCoroutine(crea_vigia_enemi()); */
+            /*             StartCoroutine(crea_vigia_enemi()); */
             tiempo_crea_vigia = 2000;
         }
 
@@ -191,28 +194,22 @@ public class Manager_Game : MonoBehaviour
     {
         Vector3[] posiciones = this.torres_Jugador1[0].GetComponent<Tower>().devuelve_posiciones();
 
-        this.soldados_jugador1.Add(UnityEngine.Object.Instantiate(this.soldadoA, posiciones[0], Quaternion.identity));
-        this.soldados_jugador1.Add(UnityEngine.Object.Instantiate(this.soldadoA, posiciones[1], Quaternion.identity));
-        this.soldados_jugador1.Add(UnityEngine.Object.Instantiate(this.soldadoA, posiciones[2], Quaternion.identity));
-        this.soldados_jugador1.Add(UnityEngine.Object.Instantiate(this.soldadoA, posiciones[3], Quaternion.identity));
-        this.soldados_jugador1.Add(UnityEngine.Object.Instantiate(this.soldadoA, posiciones[4], Quaternion.identity));
+        this.soldados_jugador1.Add(UnityEngine.Object.Instantiate(this.soldadoA, posiciones[0], Quaternion.identity).GetComponent<Soldier>());
+        this.soldados_jugador1.Add(UnityEngine.Object.Instantiate(this.soldadoA, posiciones[1], Quaternion.identity).GetComponent<Soldier>());
+        this.soldados_jugador1.Add(UnityEngine.Object.Instantiate(this.soldadoA, posiciones[2], Quaternion.identity).GetComponent<Soldier>());
+        this.soldados_jugador1.Add(UnityEngine.Object.Instantiate(this.soldadoA, posiciones[3], Quaternion.identity).GetComponent<Soldier>());
+        this.soldados_jugador1.Add(UnityEngine.Object.Instantiate(this.soldadoA, posiciones[4], Quaternion.identity).GetComponent<Soldier>());
 
     }
 
     public void creaSoldado2()
     {
         Vector3[] posiciones = this.torres_Jugador1[0].GetComponent<Tower>().devuelve_posiciones();
-
-
-
-        this.soldados_jugador1.Add(UnityEngine.Object.Instantiate(this.soldadoB, posiciones[1], Quaternion.identity));
-        this.soldados_jugador1.Add(UnityEngine.Object.Instantiate(this.soldadoB, posiciones[2], Quaternion.identity));
-        this.soldados_jugador1.Add(UnityEngine.Object.Instantiate(this.soldadoB, posiciones[3], Quaternion.identity));
+        this.soldados_jugador1.Add(UnityEngine.Object.Instantiate(this.soldadoB, posiciones[1], Quaternion.identity).GetComponent<Soldier>());
+        this.soldados_jugador1.Add(UnityEngine.Object.Instantiate(this.soldadoB, posiciones[2], Quaternion.identity).GetComponent<Soldier>());
+        this.soldados_jugador1.Add(UnityEngine.Object.Instantiate(this.soldadoB, posiciones[3], Quaternion.identity).GetComponent<Soldier>());
 
     }
-
-
-
 
 
 
@@ -269,6 +266,63 @@ public class Manager_Game : MonoBehaviour
 
 
 
+
+
+    //-------------------------------BORRAR LUEGO NO TUVE TIEMPO PARA ORGANIZARLO---------------------
+
+    public float vida_jugador1T()
+    {
+        return this.torres_Jugador1[0].porc_vida();
+    }
+
+    public float vida_jugador2T()
+    {
+        return this.torres_Jugador2[0].porc_vida();
+
+    }
+
+
+
+    public List<Unit> get_unidades_jugador1()
+    {
+        return this.soldados_jugador1;
+    }
+
+    public List<Unit> get_vigias_jugador1()
+    {
+        return this.vigias_jugador1;
+    }
+
+    public List<Unit> get_vigias_jugador2()
+    {
+        return this.vigias_jugador1;
+    }
+
+    public List<Unit> get_unidades_jugador2()
+    {
+        return this.soldados_jugador2;
+    }
+
+    public Building[] get_bases()
+    {
+        return this.bases;
+    }
+
+    public Building[] get_torres_jugador1()
+    {
+        return this.torres_Jugador1;
+    }
+
+    public Building[] get_torres_jugador2()
+    {
+        return this.torres_Jugador2;
+    }
+
+
+
+
+
+
     //-------------------------------BORRAR LUEGO NO TUVE TIEMPO PARA ORGANIZARLO---------------------
     void muevepj()
     {
@@ -306,44 +360,6 @@ public class Manager_Game : MonoBehaviour
 
 
 
-    }
-
-    //-------------------------------BORRAR LUEGO NO TUVE TIEMPO PARA ORGANIZARLO---------------------
-
-    public float vida_jugador1T(){
-        return this.torres_Jugador1[0].porc_vida();
-    }
-
-    public float vida_jugador2T(){
-        return this.torres_Jugador2[0].porc_vida();
-        
-    }
-
-
-
-    public List<GameObject> get_unidades_jugador1()
-    {
-        return this.soldados_jugador1;
-    }
-
-    public List<GameObject> get_unidades_jugador2()
-    {
-        return this.soldados_jugador2;
-    }
-
-    public Building[] get_bases()
-    {
-        return this.bases;
-    }
-
-    public Building[] get_torres_jugador1()
-    {
-        return this.torres_Jugador1;
-    }
-
-    public Building[] get_torres_jugador2()
-    {
-        return this.torres_Jugador2;
     }
 
 }

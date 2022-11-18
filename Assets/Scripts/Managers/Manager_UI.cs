@@ -17,8 +17,7 @@ public class Manager_UI : MonoBehaviour
     public GameObject Health_UI;
     public GameObject Time_UI;
 
-
-    
+    public GameObject Icon_UI;
 
 
     [Header("Test")]
@@ -31,12 +30,32 @@ public class Manager_UI : MonoBehaviour
 
 
 
-
-
-
     //--------------------ELIMINAR LUEGO------------------
-    public List<RectTransform> Informacion;
-    public List<RectTransform> minimenu;
+    public List<RectTransform> cuadrados_azules;
+    public List<RectTransform> cuadrados_rojos;
+    public List<RectTransform> cuadrados_normales;
+
+
+    public int num_cuadrados_azules = 0;
+    public int num_cuadrados_rojos = 0;
+    public int num_cuadrados_normales = 0;
+
+
+    public float offset_x_minimenu = 1;
+    public float offset_y_minimenu = 1;
+    public float offset_w_minimenu = 1;
+    public float offset_h_minimenu = 1;
+
+    public float offset_t_minimenu = 1;
+
+
+    public float offset_x_menu = 1;
+    public float offset_y_menu = 1;
+    public float offset_w_menu = 1;
+    public float offset_h_menu = 1;
+
+    public float offset_t_menu = 1;
+
 
     //Parte Grafica
     [SerializeField]
@@ -48,7 +67,7 @@ public class Manager_UI : MonoBehaviour
     Vector2 endPosition;
 
 
-    List<GameObject> listaSeleccionados = new List<GameObject>();
+    List<Unit> listaSeleccionados = new List<Unit>();
     //-----------------------------------------------------
 
 
@@ -58,23 +77,47 @@ public class Manager_UI : MonoBehaviour
     void Start()
     {
 
+        //Variables para el offset del menu
+        offset_x_minimenu = 210;
+        offset_y_minimenu = -40;
+        offset_w_minimenu = 1;
+        offset_h_minimenu = 1;
+        offset_t_minimenu = 1;
+
+        offset_x_menu = 200;
+        offset_y_menu = -40;
+        offset_w_menu = 0.6f;
+        offset_h_menu = 1;
+        offset_t_menu = 1;
+
+        //Se rellenan los iconos
+
+        for (int i = 0; i < 300; i++)
+        {
+            GameObject imgA = Instantiate(GameObject.Find("Icon_Player1"), transform.position, transform.rotation, this.Icon_UI.transform);
+            RectTransform imgA_a = imgA.GetComponent<RectTransform>();
+
+            GameObject imgB = Instantiate(GameObject.Find("Icon_Player2"), transform.position, transform.rotation, this.Icon_UI.transform);
+            RectTransform imgB_a = imgB.GetComponent<RectTransform>();
+
+            GameObject imgC = Instantiate(GameObject.Find("Icon_Normal"), transform.position, transform.rotation, this.Icon_UI.transform);
+            RectTransform imgC_a = imgC.GetComponent<RectTransform>();
+
+            this.cuadrados_azules.Add(imgA_a);
+
+            this.cuadrados_rojos.Add(imgB_a);
+
+            this.cuadrados_normales.Add(imgC_a);
+        }
     }
 
-    // Update is called once per frame
-    void LateUpdate()
+    void Update()
     {
-        
-
-        this.player1UI.fillAmount=this.Manager_Game.GetComponent<Manager_Game>().vida_jugador1T();
-        this.player2UI.fillAmount=this.Manager_Game.GetComponent<Manager_Game>().vida_jugador2T();
         //BORRAR LUEGO
-        this.imprimeInfo();
-        this.imprime_minimenu();
 
         if (this.Manager_Game.GetComponent<Manager_Controller>().isMenuActive())
         {
             this.Menu_UI.GetComponent<CanvasGroup>().alpha = 0.0f;
-
 
             //En click
             if (Input.GetMouseButtonDown(0))
@@ -119,20 +162,40 @@ public class Manager_UI : MonoBehaviour
 
         if (Input.GetMouseButtonDown(1))
         {
-            foreach (GameObject soldado in this.listaSeleccionados)
+            foreach (Unit soldado in this.listaSeleccionados)
             {
-                float x=Input.mousePosition.x;
-                float z=Input.mousePosition.y;
+                float x = Input.mousePosition.x;
+                float z = Input.mousePosition.y;
 
-                soldado.GetComponent<UnityEngine.AI.NavMeshAgent>().SetDestination(new Vector3(-30,1,21));
+                soldado.GetComponent<UnityEngine.AI.NavMeshAgent>().SetDestination(new Vector3(-30, 1, 21));
                 Debug.Log("Se envio a:");
-                Debug.Log(new Vector3(x,0,z));
+                Debug.Log(new Vector3(x, 0, z));
             }
 
         }
+        //Agregar agarre de mouse
     }
 
-    //---ELIMINAR LUEGO---
+
+    // Update is called once per frame
+    void LateUpdate()
+    {
+        //Se rellena el HUD segun la vida que tengan los jugadores
+        this.player1UI.fillAmount = this.Manager_Game.GetComponent<Manager_Game>().vida_jugador1T();
+        this.player2UI.fillAmount = this.Manager_Game.GetComponent<Manager_Game>().vida_jugador2T();
+
+
+        //Se posicionan los cuadrados segun las posiciones en el mapa
+
+        this.num_cuadrados_azules = 0;
+        this.num_cuadrados_rojos = 0;
+        this.num_cuadrados_normales = 0;
+        this.imprimeInfo();
+        this.imprime_minimenu();
+
+    }
+
+    //-------Sistema que determina las unidades seleccionadas-----
     void DrawVisual()
     {
         Vector2 boxStart = this.startPosition;
@@ -171,19 +234,15 @@ public class Manager_UI : MonoBehaviour
             selectionBox.yMax = Input.mousePosition.y;
         }
 
-        /*print(selectionBox.xMin);
-        print(selectionBox.xMax);
-        print(selectionBox.yMin);
-        print(selectionBox.yMax); */
     }
 
     void SelectUnits()
     {
-        this.listaSeleccionados = new List<GameObject>();
+        this.listaSeleccionados = new List<Unit>();
         Debug.Log("datos");
         Debug.Log(this.selectionBox);
 
-        foreach (GameObject soldado in this.Manager_Game.GetComponent<Manager_Game>().get_unidades_jugador1())
+        foreach (Unit soldado in this.Manager_Game.GetComponent<Manager_Game>().get_unidades_jugador1())
         {
             float x = soldado.transform.position.x;
             float y = soldado.transform.position.z;
@@ -196,210 +255,180 @@ public class Manager_UI : MonoBehaviour
 
             }
 
-
-
-
         }
 
     }
 
-    //---ELIMINAR LUEGO---
+
+    //-------Funciones para el mapa
 
 
-
-    //Minimapa
+    //Canvas del minimenu
     void imprime_minimenu()
     {
-        //Imprime soldados
+        this.num_cuadrados_azules = 0;
+        this.num_cuadrados_rojos = 0;
+        this.num_cuadrados_normales = 0;
 
-        int offsetx = 280;
-        int offsety = -20;
+        //-----Impresion de soldados----
 
-        int var = 0;
-        foreach (GameObject soldado in this.Manager_Game.GetComponent<Manager_Game>().get_unidades_jugador1())
-        {
-            float x = soldado.transform.position.x + offsetx;
-            float y = soldado.transform.position.z + offsety;
+        //imprime soldados jugador 1
+        this.imprime_soldados_mapa(0, 1, this.Manager_Game.GetComponent<Manager_Game>().get_unidades_jugador1(), 7);
 
-            Vector2 boxStart = new Vector2((x * 1) - 10, (y * 1) - 10);
-            Vector2 boxEnd = new Vector2((x * 1) + 10, (y * 1) + 10);
+        //imprime soladdos jugador 2
+        this.imprime_soldados_mapa(1, 1, this.Manager_Game.GetComponent<Manager_Game>().get_unidades_jugador2(), 7);
 
-            Vector2 boxCenter = (boxStart + boxEnd) / 2;
-            minimenu[var].localPosition = boxCenter;
+        //imprime vigias jugador 1
+        this.imprime_soldados_mapa(2, 1, this.Manager_Game.GetComponent<Manager_Game>().get_vigias_jugador1(), 4);
 
-            Vector3 boxSize = new Vector2(7, 7);
-            minimenu[var].sizeDelta = boxSize;
+        //imprime vigias jugador 2
+        this.imprime_soldados_mapa(2, 1, this.Manager_Game.GetComponent<Manager_Game>().get_vigias_jugador2(), 4);
 
-            var++;
-        }
+        //----Impresion de construcciones---
 
-        //Imprime jugador
+        //Imprime torres jugador 1
+        this.imprime_bases_mapa(0, 1, this.Manager_Game.GetComponent<Manager_Game>().get_torres_jugador1(), 7);
 
-        //Imprime torres
-        foreach (Building soldado in this.Manager_Game.GetComponent<Manager_Game>().get_bases())
-        {
-            float x = soldado.transform.position.x + offsetx;
-            float y = soldado.transform.position.z + offsety;
+        //Imprime torres jugador 2
 
-            Vector2 boxStart = new Vector2((x * 1) - 10, (y * 1) - 10);
-            Vector2 boxEnd = new Vector2((x * 1) + 10, (y * 1) + 10);
+        this.imprime_bases_mapa(1, 1, this.Manager_Game.GetComponent<Manager_Game>().get_torres_jugador2(), 7);
 
-            Vector2 boxCenter = (boxStart + boxEnd) / 2;
-            minimenu[var].localPosition = boxCenter;
+        //Imprime bases
 
-            Vector3 boxSize = new Vector2(20, 20);
-            minimenu[var].sizeDelta = boxSize;
-
-            var++;
-        }
-
-        //Imprime torres
-        foreach (Building torres  in this.Manager_Game.GetComponent<Manager_Game>().get_torres_jugador1())
-        {
-            float x = torres.transform.position.x + offsetx;
-            float y = torres.transform.position.z + offsety;
-
-            Vector2 boxStart = new Vector2((x * 1) - 10, (y * 1) - 10);
-            Vector2 boxEnd = new Vector2((x * 1) + 10, (y * 1) + 10);
-
-            Vector2 boxCenter = (boxStart + boxEnd) / 2;
-            minimenu[var].localPosition = boxCenter;
-
-
-            Vector3 boxSize = new Vector2(20, 20);
-            minimenu[var].sizeDelta = boxSize;
-
-            var++;
-        }
-
-        //Imprime torres
-        foreach (Building soldado in this.Manager_Game.GetComponent<Manager_Game>().get_torres_jugador2())
-        {
-            float x = soldado.transform.position.x + offsetx;
-            float y = soldado.transform.position.z + offsety;
-
-            Vector2 boxStart = new Vector2((x * 1) - 10, (y * 1) - 10);
-            Vector2 boxEnd = new Vector2((x * 1) + 10, (y * 1) + 10);
-
-            Vector2 boxCenter = (boxStart + boxEnd) / 2;
-            minimenu[var].localPosition = boxCenter;
-
-
-            Vector3 boxSize = new Vector2(20, 20);
-            minimenu[var].sizeDelta = boxSize;
-
-            var++;
-        }
-
-
-
-
+        this.imprime_bases_mapa(2, 1, this.Manager_Game.GetComponent<Manager_Game>().get_bases(), 7);
     }
 
 
-    //Dibuja torrres minimapa
-
-    //Dibuja bases minimapa
-
-    //Dibuja soldados minimapa
-
-    //Dibuja personaje minimapa
-
-
-    //Mapa
+    //Canvas del menu
     void imprimeInfo()
     {
-        //Imprime soldados
-        int var = 0;
-        foreach (GameObject soldado in this.Manager_Game.GetComponent<Manager_Game>().get_unidades_jugador1())
-        {
-            float x = soldado.transform.position.x;
-            float y = soldado.transform.position.z;
-
-            Vector2 boxStart = new Vector2((x * 2) - 10, (y * 2) - 10);
-            Vector2 boxEnd = new Vector2((x * 2) + 10, (y * 2) + 10);
-
-            Vector2 boxCenter = (boxStart + boxEnd) / 2;
-            Informacion[var].localPosition = boxCenter;
-
-
-            Vector3 boxSize = new Vector2(7, 7);
-            Informacion[var].sizeDelta = boxSize;
-
-            var++;
-        }
-
-        //Imprime jugador
-
-        //Imprime torres
-        foreach (Building soldado in this.Manager_Game.GetComponent<Manager_Game>().get_bases())
-        {
-            float x = soldado.transform.position.x;
-            float y = soldado.transform.position.z;
-
-            Vector2 boxStart = new Vector2((x * 2) - 10, (y * 2) - 10);
-            Vector2 boxEnd = new Vector2((x * 2) + 10, (y * 2) + 10);
-
-            Vector2 boxCenter = (boxStart + boxEnd) / 2;
-            Informacion[var].localPosition = boxCenter;
-
-            Vector3 boxSize = new Vector2(20, 20);
-            Informacion[var].sizeDelta = boxSize;
-
-            var++;
-        }
-
-        //Imprime torres
-        foreach (Building soldado in this.Manager_Game.GetComponent<Manager_Game>().get_torres_jugador1())
-        {
-            float x = soldado.transform.position.x;
-            float y = soldado.transform.position.z;
-
-            Vector2 boxStart = new Vector2((x * 2) - 10, (y * 2) - 10);
-            Vector2 boxEnd = new Vector2((x * 2) + 10, (y * 2) + 10);
-
-            Vector2 boxCenter = (boxStart + boxEnd) / 2;
-            Informacion[var].localPosition = boxCenter;
-
-
-
-            Vector3 boxSize = new Vector2(20, 20);
-            Informacion[var].sizeDelta = boxSize;
-
-            var++;
-        }
-
-        //Imprime torres
-        foreach (Building soldado in this.Manager_Game.GetComponent<Manager_Game>().get_torres_jugador2())
-        {
-            float x = soldado.transform.position.x;
-            float y = soldado.transform.position.z;
-
-            Vector2 boxStart = new Vector2((x * 2) - 10, (y * 2) - 10);
-            Vector2 boxEnd = new Vector2((x * 2) + 10, (y * 2) + 10);
-
-            Vector2 boxCenter = (boxStart + boxEnd) / 2;
-            Informacion[var].localPosition = boxCenter;
-
-            Vector3 boxSize = new Vector2(20, 20);
-            Informacion[var].sizeDelta = boxSize;
-
-            var++;
-        }
 
 
 
 
     }
 
+    //0 para jugador 1, 1 para jugador 2,2 para normal
+    //0 para minimapa, 1 para mapa
+    void imprime_soldados_mapa(int tipo, int modo, List<Unit> lista_soldados, float tamanio)
+    {
 
-    //Dibuja torrres minimapa
+        float off_x = 0;
+        float off_y = 0;
+        float off_w = 0;
+        float off_h = 0;
 
-    //Dibuja bases minimapa
+        //Se define el modo
+        if (modo == 1)
+        {
+            off_x = this.offset_x_menu;
+            off_y = this.offset_y_menu;
+            off_w = this.offset_w_menu;
+            off_h = this.offset_h_menu;
+        }
+        else
+        {
+            off_x = this.offset_x_minimenu;
+            off_y = this.offset_y_minimenu;
+            off_w = this.offset_w_menu;
+            off_h = this.offset_h_menu;
+        }
 
-    //Dibuja soldados minimapa
 
-    //Dibuja personaje minimapa
+
+        foreach (Unit soldado in lista_soldados)
+        {
+            float x = (soldado.transform.position.x + off_x) / off_w;
+            float y = (soldado.transform.position.z + off_y) / off_h;
+
+            Vector2 boxStart = new Vector2(x - tamanio, y - tamanio);
+            Vector2 boxEnd = new Vector2(x + tamanio, y + tamanio);
+
+            Vector2 boxCenter = (boxStart + boxEnd) / 2;
+            Vector3 boxSize = new Vector2(7, 7);
+
+            if (tipo == 0)
+            {
+                this.cuadrados_azules[this.num_cuadrados_azules].localPosition = boxCenter;
+                this.cuadrados_azules[this.num_cuadrados_azules].sizeDelta = boxSize;
+                this.num_cuadrados_azules++;
+            }
+            else if (tipo == 1)
+            {
+                this.cuadrados_rojos[this.num_cuadrados_rojos].localPosition = boxCenter;
+                this.cuadrados_rojos[this.num_cuadrados_rojos].sizeDelta = boxSize;
+                this.num_cuadrados_rojos++;
+            }
+            else
+            {
+                this.cuadrados_normales[this.num_cuadrados_normales].localPosition = boxCenter;
+                this.cuadrados_normales[this.num_cuadrados_normales].sizeDelta = boxSize;
+                this.num_cuadrados_normales++;
+            }
+
+        }
+    }
+
+    void imprime_bases_mapa(int tipo, int modo, Building[] lista_construcciones, float tamanio)
+    {
+        float off_x = 0;
+        float off_y = 0;
+        float off_h = 0;
+        float off_w = 0;
+
+        //Se define el modo
+        if (modo == 1)
+        {
+            off_x = this.offset_x_menu;
+            off_y = this.offset_y_menu;
+            off_h = this.offset_h_menu;
+            off_w = this.offset_w_menu;
+        }
+        else
+        {
+            off_x = this.offset_x_menu;
+            off_y = this.offset_y_menu;
+            off_h = this.offset_h_menu;
+            off_w = this.offset_w_menu;
+        }
+
+
+
+        foreach (Building construccion in lista_construcciones)
+        {
+            float x = (construccion.transform.position.x + off_x) / off_w;
+            float y = (construccion.transform.position.z + off_y) / off_h;
+
+            Vector2 boxStart = new Vector2(x - tamanio, y - tamanio);
+            Vector2 boxEnd = new Vector2(x + tamanio, y + tamanio);
+
+            Vector2 boxCenter = (boxStart + boxEnd) / 2;
+            Vector3 boxSize = new Vector2(7, 7);
+
+            if (tipo == 0)
+            {
+                this.cuadrados_azules[this.num_cuadrados_azules].localPosition = boxCenter;
+                this.cuadrados_azules[this.num_cuadrados_azules].sizeDelta = boxSize;
+                this.num_cuadrados_azules++;
+            }
+            else if (tipo == 1)
+            {
+                this.cuadrados_rojos[this.num_cuadrados_rojos].localPosition = boxCenter;
+                this.cuadrados_rojos[this.num_cuadrados_rojos].sizeDelta = boxSize;
+                this.num_cuadrados_rojos++;
+            }
+            else
+            {
+                this.cuadrados_normales[this.num_cuadrados_normales].localPosition = boxCenter;
+                this.cuadrados_normales[this.num_cuadrados_normales].sizeDelta = boxSize;
+                this.num_cuadrados_normales++;
+            }
+
+        }
+
+
+    }
+
 
 
 }

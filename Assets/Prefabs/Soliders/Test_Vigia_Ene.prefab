@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 2461057951692526300}
   - component: {fileID: -6837534744033167326}
   m_Layer: 0
-  m_Name: Test_Vigia
+  m_Name: Test_Vigia_Ene
   m_TagString: Watch
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -34,7 +34,7 @@ Transform:
   m_LocalScale: {x: 0.97, y: 0.97, z: 0.97}
   m_ConstrainProportionsScale: 1
   m_Children:
-  - {fileID: 5897805550843488001}
+  - {fileID: 5869888700255229679}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -160,7 +160,7 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 0
---- !u!1001 &6220473410286715114
+--- !u!1001 &6268080293663977732
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -226,15 +226,15 @@ PrefabInstance:
     - target: {fileID: -7511558181221131132, guid: c1928cf7dc57c014694a7593f6098e6b, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: bb509f7d1c228c14a93436a9baec2dbf, type: 2}
+      objectReference: {fileID: 2100000, guid: 478e8c9e816b96f44b03efcab3ec52ef, type: 2}
     - target: {fileID: 919132149155446097, guid: c1928cf7dc57c014694a7593f6098e6b, type: 3}
       propertyPath: m_Name
       value: armadilllo
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c1928cf7dc57c014694a7593f6098e6b, type: 3}
---- !u!4 &5897805550843488001 stripped
+--- !u!4 &5869888700255229679 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: c1928cf7dc57c014694a7593f6098e6b, type: 3}
-  m_PrefabInstance: {fileID: 6220473410286715114}
+  m_PrefabInstance: {fileID: 6268080293663977732}
   m_PrefabAsset: {fileID: 0}
