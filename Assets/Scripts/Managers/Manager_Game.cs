@@ -86,6 +86,8 @@ public class Manager_Game : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        //Apenas se inicia se revisan que variables se eliminarion
+        limpiaListas();
 
     }
 
@@ -354,9 +356,49 @@ public class Manager_Game : MonoBehaviour
         {
             this.jugador1.transform.Rotate(0, -20, 0);
         }
+    }
+
+    private void limpiaListas()
+    {
+
+        for (int i = this.soldados_jugador1.Count - 1; i >= 0; i--)
+        {
+            if (this.soldados_jugador1[i] == null)
+            {
+                this.soldados_jugador1.RemoveAt(i);
+            }
+
+        }
+
+        for (int i = this.vigias_jugador1.Count - 1; i >= 0; i--)
+        {
+            if (this.vigias_jugador1[i] == null)
+            {
+                this.vigias_jugador1.RemoveAt(i);
+            }
 
 
+        }
 
+        for (int i = this.soldados_jugador2.Count - 1; i >= 0; i--)
+        {
+            if (this.soldados_jugador2[i] == null)
+            {
+                this.soldados_jugador2.RemoveAt(i);
+            }
+
+
+        }
+
+        for (int i = this.vigias_jugador2.Count - 1; i >= 0; i--)
+        {
+
+            if (this.vigias_jugador2[i] == null)
+            {
+                this.vigias_jugador2.RemoveAt(i);
+            }
+
+        }
 
 
 
