@@ -45,8 +45,8 @@ public class Tower : Building
 
         if (other.gameObject.tag == "Watch")
         {
-
             this.vida = this.vida - 5;
+            Destroy(other.gameObject);
         }
     }
 

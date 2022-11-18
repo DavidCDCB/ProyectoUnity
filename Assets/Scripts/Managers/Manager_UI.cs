@@ -239,7 +239,7 @@ public class Manager_UI : MonoBehaviour
     void SelectUnits()
     {
         this.listaSeleccionados = new List<Unit>();
-        Debug.Log("datos");
+        Debug.Log("Unidades seleccionadas");
         Debug.Log(this.selectionBox);
 
         foreach (Unit soldado in this.Manager_Game.GetComponent<Manager_Game>().get_unidades_jugador1())
