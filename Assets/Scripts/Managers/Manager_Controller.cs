@@ -38,6 +38,10 @@ public class Manager_Controller : MonoBehaviour
 
 
 
+
+        
+
+
         //metodo para mover camara
         //
     }
@@ -100,6 +104,10 @@ public class Manager_Controller : MonoBehaviour
     public bool isMenuActive()
     {
         return menuActive;
+    }
+
+    public Vector2 getInputMouse(){
+        return Input.mousePosition;
     }
 
 

@@ -11,6 +11,7 @@ public class Manager_UI : MonoBehaviour
 
     [Header("Canvas")]
 
+    public GameObject canvas;
     public GameObject Menu_UI;
     public GameObject Mini_Map_UI;
     public GameObject Units_Info_UI;
@@ -21,16 +22,13 @@ public class Manager_UI : MonoBehaviour
 
 
     [Header("Test")]
-
-    public RectTransform visual_box;
-
     public Image player1UI;
     public Image player2UI;
 
 
 
 
-    //--------------------ELIMINAR LUEGO------------------
+    //----------Para graficas del mapa
     public List<RectTransform> cuadrados_azules;
     public List<RectTransform> cuadrados_rojos;
     public List<RectTransform> cuadrados_normales;
@@ -41,26 +39,25 @@ public class Manager_UI : MonoBehaviour
     public int num_cuadrados_normales = 0;
 
 
-    public float offset_x_minimenu = 1;
-    public float offset_y_minimenu = 1;
-    public float offset_w_minimenu = 1;
-    public float offset_h_minimenu = 1;
+    public float offset_x_minimenu ;
+    public float offset_y_minimenu ;
+    public float offset_w_minimenu ;
+    public float offset_h_minimenu ;
 
-    public float offset_t_minimenu = 1;
+    public float offset_t_minimenu ;
 
 
-    public float offset_x_menu = 1;
-    public float offset_y_menu = 1;
-    public float offset_w_menu = 1;
-    public float offset_h_menu = 1;
+    public float offset_x_menu ;
+    public float offset_y_menu ;
+    public float offset_w_menu ;
+    public float offset_h_menu ;
 
-    public float offset_t_menu = 1;
+    public float offset_t_menu ;
 
 
     //Parte Grafica
     [SerializeField]
     RectTransform boxVisual;
-
     //Parte logica
     Rect selectionBox;
     Vector2 startPosition;
@@ -71,28 +68,16 @@ public class Manager_UI : MonoBehaviour
     //-----------------------------------------------------
 
 
-    //---------------ELIMINAR LUEGO---------------------
+
 
     // Start is called before the first frame update
     void Start()
     {
 
-        //Variables para el offset del menu
-        offset_x_minimenu = 210;
-        offset_y_minimenu = -40;
-        offset_w_minimenu = 1;
-        offset_h_minimenu = 1;
-        offset_t_minimenu = 1;
-
-        offset_x_menu = 200;
-        offset_y_menu = -40;
-        offset_w_menu = 0.6f;
-        offset_h_menu = 1;
-        offset_t_menu = 1;
 
         //Se rellenan los iconos
 
-        for (int i = 0; i < 300; i++)
+        for (int i = 0; i < 1000; i++)
         {
             GameObject imgA = Instantiate(GameObject.Find("Icon_Player1"), transform.position, transform.rotation, this.Icon_UI.transform);
             RectTransform imgA_a = imgA.GetComponent<RectTransform>();
@@ -113,6 +98,13 @@ public class Manager_UI : MonoBehaviour
 
     void Update()
     {
+        Debug.Log("---Datos mouse---");
+        Debug.Log(this.convierte_pos_mouse());
+        Debug.Log(this.Manager_Game.GetComponent<Manager_Controller>().getInputMouse());
+        Debug.Log("---Datos x---");
+
+
+        
         //BORRAR LUEGO
 
         if (this.Manager_Game.GetComponent<Manager_Controller>().isMenuActive())
@@ -122,16 +114,14 @@ public class Manager_UI : MonoBehaviour
             //En click
             if (Input.GetMouseButtonDown(0))
             {
-
-                this.startPosition = Input.mousePosition;
+                this.startPosition = this.convierte_pos_mouse();
                 this.selectionBox = new Rect();
             }
 
             //Durante
             if (Input.GetMouseButton(0))
-            {
-
-                this.endPosition = Input.mousePosition;
+            { 
+                this.endPosition = this.convierte_pos_mouse();
                 DrawVisual();
                 DrawSelection();
             }
@@ -139,7 +129,6 @@ public class Manager_UI : MonoBehaviour
             //Al final
             if (Input.GetMouseButtonUp(0))
             {
-
                 SelectUnits();
                 this.startPosition = Vector2.zero;
                 this.endPosition = Vector2.zero;
@@ -213,25 +202,25 @@ public class Manager_UI : MonoBehaviour
         //Calculos para X
         if (Input.mousePosition.x < startPosition.x)
         {
-            selectionBox.xMin = Input.mousePosition.x;
+            selectionBox.xMin = this.convierte_pos_mouse().x;
             selectionBox.xMax = startPosition.x;
         }
         else
         {
             selectionBox.xMin = startPosition.x;
-            selectionBox.xMax = Input.mousePosition.x;
+            selectionBox.xMax = this.convierte_pos_mouse().x;
         }
 
         //Calculos para Y
         if (Input.mousePosition.y < startPosition.y)
         {
-            selectionBox.yMin = Input.mousePosition.y;
+            selectionBox.yMin = this.convierte_pos_mouse().y;
             selectionBox.yMax = startPosition.y;
         }
         else
         {
             selectionBox.yMin = startPosition.y;
-            selectionBox.yMax = Input.mousePosition.y;
+            selectionBox.yMax = this.convierte_pos_mouse().y;
         }
 
     }
@@ -273,29 +262,29 @@ public class Manager_UI : MonoBehaviour
         //-----Impresion de soldados----
 
         //imprime soldados jugador 1
-        this.imprime_soldados_mapa(0, 1, this.Manager_Game.GetComponent<Manager_Game>().get_unidades_jugador1(), 7);
+        this.imprime_soldados_mapa(0, 0, this.Manager_Game.GetComponent<Manager_Game>().get_unidades_jugador1(), 7);
 
         //imprime soladdos jugador 2
-        this.imprime_soldados_mapa(1, 1, this.Manager_Game.GetComponent<Manager_Game>().get_unidades_jugador2(), 7);
+        this.imprime_soldados_mapa(1, 0, this.Manager_Game.GetComponent<Manager_Game>().get_unidades_jugador2(), 7);
 
         //imprime vigias jugador 1
-        this.imprime_soldados_mapa(2, 1, this.Manager_Game.GetComponent<Manager_Game>().get_vigias_jugador1(), 4);
+        this.imprime_soldados_mapa(2, 0, this.Manager_Game.GetComponent<Manager_Game>().get_vigias_jugador1(), 4);
 
         //imprime vigias jugador 2
-        this.imprime_soldados_mapa(2, 1, this.Manager_Game.GetComponent<Manager_Game>().get_vigias_jugador2(), 4);
+        this.imprime_soldados_mapa(2, 0, this.Manager_Game.GetComponent<Manager_Game>().get_vigias_jugador2(), 4);
 
         //----Impresion de construcciones---
 
         //Imprime torres jugador 1
-        this.imprime_bases_mapa(0, 1, this.Manager_Game.GetComponent<Manager_Game>().get_torres_jugador1(), 7);
+        this.imprime_bases_mapa(0, 0, this.Manager_Game.GetComponent<Manager_Game>().get_torres_jugador1(), 7);
 
         //Imprime torres jugador 2
 
-        this.imprime_bases_mapa(1, 1, this.Manager_Game.GetComponent<Manager_Game>().get_torres_jugador2(), 7);
+        this.imprime_bases_mapa(1, 0, this.Manager_Game.GetComponent<Manager_Game>().get_torres_jugador2(), 7);
 
         //Imprime bases
 
-        this.imprime_bases_mapa(2, 1, this.Manager_Game.GetComponent<Manager_Game>().get_bases(), 7);
+        this.imprime_bases_mapa(2, 0,this.Manager_Game.GetComponent<Manager_Game>().get_bases(), 7);
     }
 
 
@@ -303,10 +292,30 @@ public class Manager_UI : MonoBehaviour
     void imprimeInfo()
     {
 
+    }
 
+    Vector2 convierte_pos_mouse()
+    {
+        //Calculo de posicion del mouse
+        float x = this.canvas.GetComponent<RectTransform>().position.x;
+        float y = this.canvas.GetComponent<RectTransform>().position.y;
+        float width = this.canvas.GetComponent<RectTransform>().rect.width;
+        float height = this.canvas.GetComponent<RectTransform>().rect.height;
 
+        float mouse_abs_x = Input.mousePosition.x - x;
+        float mouse_abs_y = Input.mousePosition.y - y;
+
+        float mouse_x = (mouse_abs_x / x) * width / 2;
+        float mouse_y = (mouse_abs_y / y) * height / 2;
+
+        
+
+        return new Vector2(mouse_x,mouse_y);
 
     }
+
+
+
 
     //0 para jugador 1, 1 para jugador 2,2 para normal
     //0 para minimapa, 1 para mapa
@@ -319,17 +328,17 @@ public class Manager_UI : MonoBehaviour
         float off_h = 0;
 
         //Se define el modo
-        if (modo == 1)
-        {
-            off_x = this.offset_x_menu;
-            off_y = this.offset_y_menu;
-            off_w = this.offset_w_menu;
-            off_h = this.offset_h_menu;
-        }
-        else
+        if (modo == 0)
         {
             off_x = this.offset_x_minimenu;
             off_y = this.offset_y_minimenu;
+            off_w = this.offset_w_minimenu;
+            off_h = this.offset_h_minimenu;
+        }
+        else
+        {
+            off_x = this.offset_x_menu;
+            off_y = this.offset_y_menu;
             off_w = this.offset_w_menu;
             off_h = this.offset_h_menu;
         }
@@ -377,12 +386,12 @@ public class Manager_UI : MonoBehaviour
         float off_w = 0;
 
         //Se define el modo
-        if (modo == 1)
+        if (modo == 0)
         {
-            off_x = this.offset_x_menu;
-            off_y = this.offset_y_menu;
-            off_h = this.offset_h_menu;
-            off_w = this.offset_w_menu;
+            off_x = this.offset_x_minimenu;
+            off_y = this.offset_y_minimenu;
+            off_h = this.offset_h_minimenu;
+            off_w = this.offset_w_minimenu;
         }
         else
         {

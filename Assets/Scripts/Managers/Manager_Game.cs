@@ -78,7 +78,7 @@ public class Manager_Game : MonoBehaviour
         camino_J1aJ2 = this.caminos_A_a_B(this.torres_Jugador1[0], this.torres_Jugador2[0]);
         camino_J2aJ1 = this.caminos_A_a_B(this.torres_Jugador2[0], this.torres_Jugador1[0]);
 
-        /*         //Se crea la lista de caminos para el jugador 2
+        /*//Se crea la lista de caminos para el jugador 2
                 camino_J2aJ1 = this.caminos_A_a_B(this.torres_Jugador2[0], this.torres_Jugador1[0]);
          */
     }
@@ -113,7 +113,7 @@ public class Manager_Game : MonoBehaviour
 
     IEnumerator crea_vigia()
     {
-        for (int i = 0; i < 5; i++)
+        for (int i = 0; i < 7; i++)
         {
             yield return new WaitForSeconds(1f);
             Vector3[] posiciones = this.torres_Jugador1[0].GetComponent<Tower>().devuelve_posiciones();
@@ -123,6 +123,10 @@ public class Manager_Game : MonoBehaviour
             Watch u = _vigia.GetComponent<Watch>();
 
             this.vigias_jugador1.Add(u);
+
+            Debug.Log("test");
+            Debug.Log(this.posTA);
+            Debug.Log(camino_J1aJ2.Count);
 
             List<Transform> puntos = new List<Transform>();
             //TODO:Cambiar a Transform
@@ -184,12 +188,7 @@ public class Manager_Game : MonoBehaviour
 
         }
 
-
-
     }
-
-
-
 
 
     public void creaSoldado1()
@@ -259,14 +258,8 @@ public class Manager_Game : MonoBehaviour
             }
 
         }
-
-
         return caminos;
     }
-
-
-
-
 
 
 
