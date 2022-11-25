@@ -17,4 +17,10 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Perdio.unity
     guid: 38777d51930d61043a7dd6a82aa47da8
+  - enabled: 1
+    path: Assets/Scenes/Levels/Level_2.unity
+    guid: e2c467d526368f9d790118cf6d2caee8
+  - enabled: 1
+    path: Assets/Scenes/Levels/Level_3.unity
+    guid: a1931feb32f9a5c64b77e969ab844cc5
   m_configObjects: {}

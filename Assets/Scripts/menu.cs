@@ -21,6 +21,9 @@ public class menu : MonoBehaviour
         SceneManager.LoadScene("Level_1");
     }
     public void nivel2(){
-        SceneManager.LoadScene("Level_1");
+        SceneManager.LoadScene("Level_2");
+    }
+        public void nivel3(){
+        SceneManager.LoadScene("Level_3");
     }
 }
