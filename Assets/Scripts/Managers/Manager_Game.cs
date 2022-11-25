@@ -40,7 +40,7 @@ public class Manager_Game : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
+    this.contador=600;
     }
 
     // Update is called once per frame

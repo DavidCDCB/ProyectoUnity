@@ -65,6 +65,11 @@ public class Soldier : Unit
 
         }
 
+        if (this.vida <= 0)
+        {
+            Destroy(this);
+        }
+
 
 
         this.contador++;
@@ -101,9 +106,7 @@ public class Soldier : Unit
         if (other.gameObject.tag == "Base")
         {
             Base b = other.GetComponent<Base>();
-            Debug.Log("---info---");
-            Debug.Log(this.tipo());
-            Debug.Log(b.tipo());
+
 
 
             if (!this.tipo().Equals(b.tipo()))
@@ -112,6 +115,20 @@ public class Soldier : Unit
                 this.estadoJugador = Estado_enum.Atacando;
             }
         }
+
+        if (other.gameObject.tag == "Solider")
+        {
+            Soldier s = other.GetComponent<Soldier>();
+
+            if (!this.tipo().Equals(s.tipo()))
+            {
+                Debug.Log("---info---");
+                Debug.Log("esta atacando a"+other.gameObject.tag );
+
+            }
+        }
+
+
         //Si colisiona con un enemigo
     }
 
