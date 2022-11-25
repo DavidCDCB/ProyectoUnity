@@ -399,21 +399,17 @@ public class Manager_UI : MonoBehaviour
             GameObject bar = this.Base_health.transform.GetChild(i).gameObject;
             //Para cada barra
 
-            bar.transform.position = main_camera.WorldToScreenPoint(b.transform.position+ new Vector3(-45f,10f,50f));
+            bar.transform.position = main_camera.WorldToScreenPoint(b.transform.position+ new Vector3(this.xt,this.yt,this.zt));
 
             //Se obtiene los valores
             Image barra_roja=bar.transform.GetChild(1).GetComponent<Image>();
             Image barra_azul=bar.transform.GetChild(2).GetComponent<Image>();
-
-    
 
             float aliado=b.get_puntos_aliado();
             float enemigo=b.get_puntos_enemigo();
 
             barra_roja.fillAmount=aliado/500f;
             barra_azul.fillAmount=enemigo/500f;
-
-
 
         }
 

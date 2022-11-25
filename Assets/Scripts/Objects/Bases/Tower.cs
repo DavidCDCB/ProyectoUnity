@@ -40,14 +40,12 @@ public class Tower : Building
 
     void OnTriggerEnter(Collider other)
     {
-        Debug.Log("torre colisiono con" + other.gameObject.name);
-        Debug.Log("tag" + other.gameObject.tag);
+ 
+    }
 
-        if (other.gameObject.tag == "Watch")
-        {
-            this.vida = this.vida - 5;
-            Destroy(other.gameObject);
-        }
+    public void reduceVida(int danio)
+    {
+        this.vida=this.vida-danio;
     }
 
 

@@ -12,10 +12,10 @@ GameObject:
   - component: {fileID: 1716460122415579835}
   - component: {fileID: 3183267057519822700}
   - component: {fileID: 7764905688322169548}
-  - component: {fileID: 3048796578685178584}
   - component: {fileID: 6246778485859951161}
   - component: {fileID: 1739657772826720804}
   - component: {fileID: -3237968991555687911}
+  - component: {fileID: 2251875258821449420}
   m_Layer: 3
   m_Name: SoldadoP1
   m_TagString: Solider
@@ -31,8 +31,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1252328753431238031}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.50387716, y: -0.11656475, z: 2.18}
-  m_LocalScale: {x: 10, y: 10, z: 10}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 2, y: 2, z: 2}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 8117338810128454867}
@@ -104,28 +104,6 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
---- !u!195 &3048796578685178584
-NavMeshAgent:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1252328753431238031}
-  m_Enabled: 1
-  m_AgentTypeID: 0
-  m_Radius: 0.49999997
-  m_Speed: 20
-  m_Acceleration: 20
-  avoidancePriority: 50
-  m_AngularSpeed: 120
-  m_StoppingDistance: 0
-  m_AutoTraverseOffMeshLink: 1
-  m_AutoBraking: 1
-  m_AutoRepath: 1
-  m_Height: 1.9999999
-  m_BaseOffset: 0.99999994
-  m_WalkableMask: 4294967295
-  m_ObstacleAvoidanceType: 4
 --- !u!114 &6246778485859951161
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -147,6 +125,7 @@ MonoBehaviour:
   baseAtaque: {fileID: 0}
   torreAtaque: {fileID: 0}
   Jugador_Ataque: {fileID: 0}
+  mAnimator: {fileID: 822567336568981734}
   contador: 0
 --- !u!65 &1739657772826720804
 BoxCollider:
@@ -159,7 +138,7 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.66, y: 1.16, z: 2.25}
+  m_Size: {x: 1.61, y: 1.84, z: 1.74}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!54 &-3237968991555687911
 Rigidbody:
@@ -177,6 +156,28 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 126
   m_CollisionDetection: 0
+--- !u!195 &2251875258821449420
+NavMeshAgent:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1252328753431238031}
+  m_Enabled: 1
+  m_AgentTypeID: 0
+  m_Radius: 0.5
+  m_Speed: 3.5
+  m_Acceleration: 3
+  avoidancePriority: 50
+  m_AngularSpeed: 120
+  m_StoppingDistance: 0
+  m_AutoTraverseOffMeshLink: 1
+  m_AutoBraking: 1
+  m_AutoRepath: 1
+  m_Height: 2
+  m_BaseOffset: 1
+  m_WalkableMask: 4294967295
+  m_ObstacleAvoidanceType: 4
 --- !u!1 &4774113215719973404
 GameObject:
   m_ObjectHideFlags: 0
@@ -204,7 +205,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4774113215719973404}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.24, z: 0.148}
+  m_LocalPosition: {x: -0.116, y: 1.24, z: 0.148}
   m_LocalScale: {x: 0.262279, y: 0.277887, z: 0.23743999}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -593,6 +594,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 9500000, guid: 9e52c160328d68b4799c73e4e5cd0ed7, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: 9d5a362fe352a7749878cd4ea24f4038, type: 2}
     - target: {fileID: 13700000, guid: 9e52c160328d68b4799c73e4e5cd0ed7, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
@@ -603,6 +608,11 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: d15993ba4c9c3db4cb35d43e0f7a79bd, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9e52c160328d68b4799c73e4e5cd0ed7, type: 3}
+--- !u!95 &822567336568981734 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 9500000, guid: 9e52c160328d68b4799c73e4e5cd0ed7, type: 3}
+  m_PrefabInstance: {fileID: 822567336578416006}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &822567336578803582 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 400120, guid: 9e52c160328d68b4799c73e4e5cd0ed7, type: 3}

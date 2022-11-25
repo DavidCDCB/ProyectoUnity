@@ -7,17 +7,18 @@ public class Soldier : Unit
 {
 
     public NavMeshAgent navMesh;
-
     public Base baseAtaque;
     public Tower torreAtaque;
     public Soldier Jugador_Ataque;
+
+    public Animator mAnimator;
 
     public int contador;
 
     private void Awake()
     {
         this.transform.GetChild(0).gameObject.SetActive(false);
-        this.navMesh = this.GetComponent<UnityEngine.AI.NavMeshAgent>();
+        this.navMesh = this.GetComponent<NavMeshAgent>();
         this.estadoJugador = Estado_enum.EnEspera;
     }
 
@@ -27,7 +28,7 @@ public class Soldier : Unit
     }
 
     //Recibe informacion de como inicializar 
-    public void Inicializa(int vida, float danio, string tipo)
+    public void Inicializa(int vida, int danio, string tipo)
     {
         this.vida_base = vida;
         this.vida = vida;
@@ -48,85 +49,159 @@ public class Soldier : Unit
 
     public void Update()
     {
+        if (!this.isMuerto())
+        {
+            metodos();
+        }
+
+    }
+
+    void metodos()
+    {
         //Comprueba si llego al lugar
         if (this.navMesh.remainingDistance <= this.navMesh.stoppingDistance)
         {
-            this.estadoJugador = Estado_enum.EnEspera;
+            if (!this.isAtaque())
+            {
+                this.setEnEspera();
+            }
+            this.navMesh.isStopped = true;
+
         }
 
         //Si esta atacando 
         if (this.estadoJugador == Estado_enum.Atacando)
         {
+            this.navMesh.isStopped = true;
             ataque();
         }
         else if (this.estadoJugador == Estado_enum.EnCamino)
         {
-            /*             Debug.Log("En camino"); */
-
+            this.navMesh.isStopped = false;
         }
-
-        if (this.vida <= 0)
+        else if (this.estadoJugador == Estado_enum.EnEspera)
         {
-            Destroy(this);
+            this.navMesh.isStopped = true;
         }
 
-
+        //Animador
+        OrganizaAnimaciones();
 
         this.contador++;
+
+    }
+
+
+    void LateUpdate()
+    {
+        //Si se muere
+        if (this.vida <= 0)
+        {
+            Destroy(gameObject, 0f);
+            this.estadoJugador = Estado_enum.Muerto;
+        }
+
     }
 
     public void ataque()
     {
-        //Prioridad a la base
-        if (contador % 300 == 0 && this.baseAtaque != null)
+        if (contador % 300 == 0)
         {
-            if (!this.baseAtaque.tipo().Equals(this.tipo()))
+            if (this.Jugador_Ataque != null)
             {
-                this.baseAtaque.reduceVida(30, this.tipo());
+                if (!this.Jugador_Ataque.tipo().Equals(this.tipo()))
+                {
+                    this.Jugador_Ataque.reduceVida(this.danio);
+                    return;
+                }
             }
-            else
+
+            if (this.torreAtaque != null)
             {
-                this.estadoJugador = Estado_enum.EnEspera;
+                if (!this.torreAtaque.tipo().Equals(this.tipo()))
+                {
+                    this.torreAtaque.reduceVida(this.danio);
+                    return;
+                }
             }
+
+
+            if (this.baseAtaque != null)
+            {
+                if (!this.baseAtaque.tipo().Equals(this.tipo()))
+                {
+                    this.baseAtaque.reduceVida(this.danio, this.tipo());
+                    return;
+                }
+            }
+
+
+
+            this.estadoJugador = Estado_enum.EnEspera;
+
         }
-        //Segunda prioridad al soldado
 
     }
 
     public void envia_a_pos(Vector3 position)
     {
+        this.navMesh.isStopped = false;
+        this.setEnCamino();
         navMesh.SetDestination(position);
-        this.estadoJugador = Estado_enum.EnCamino;
+
     }
 
 
     void OnTriggerEnter(Collider other)
     {
-        //Si colisiona con una base
+
+        if (this.tipo().Equals("Jugador"))
+        {
+            Debug.Log(other.name);
+        }
+
+
+        //-------Si colisiona con una base--------
         if (other.gameObject.tag == "Base")
         {
             Base b = other.GetComponent<Base>();
-
-
-
             if (!this.tipo().Equals(b.tipo()))
             {
                 this.baseAtaque = b;
-                this.estadoJugador = Estado_enum.Atacando;
+                this.setAtaque();
             }
         }
 
+        //-------Si colisiona con un soldado
         if (other.gameObject.tag == "Solider")
         {
             Soldier s = other.GetComponent<Soldier>();
 
             if (!this.tipo().Equals(s.tipo()))
             {
-                Debug.Log("---info---");
-                Debug.Log("esta atacando a"+other.gameObject.tag );
+                Debug.Log("esta atacando soldado");
+                this.Jugador_Ataque = s;
+                this.setAtaque();
 
             }
         }
+
+        //-------Si colisiona con un soldado
+        if (other.gameObject.tag == "Tower")
+        {
+            Tower t = other.GetComponent<Tower>();
+
+            if (!this.tipo().Equals(t.tipo()))
+            {
+                Debug.Log("esta atacando torre");
+                this.torreAtaque = t;
+                this.setAtaque();
+
+            }
+        }
+
+
+
 
 
         //Si colisiona con un enemigo
@@ -162,6 +237,41 @@ public class Soldier : Unit
         return false;
     }
 
+    public bool isMuerto()
+    {
+        if (this.estadoJugador == Estado_enum.Muerto)
+        {
+            return true;
+        }
+        return false;
+    }
+
+    public void setEnEspera()
+    {
+        this.estadoJugador = Estado_enum.EnEspera;
+        this.navMesh.isStopped = true;
+    }
+
+    public void setEnCamino()
+    {
+        this.navMesh.isStopped = false;
+
+        this.estadoJugador = Estado_enum.EnCamino;
+    }
+
+    public void setAtaque()
+    {
+        this.navMesh.velocity = Vector3.zero;
+        this.estadoJugador = Estado_enum.Atacando;
+        this.navMesh.isStopped = true;
+    }
+
+    public void setMuerte()
+    {
+        this.estadoJugador = Estado_enum.Muerto;
+    }
+
+
     public string tipo()
     {
         if (this.tipoJugador == Jugador_enum.Jugador)
@@ -172,6 +282,43 @@ public class Soldier : Unit
         {
             return "Oponente";
         }
+    }
+
+
+    public void OrganizaAnimaciones()
+    {
+
+        if (this.estadoJugador == Estado_enum.EnCamino)
+        {
+            this.mAnimator.SetTrigger("EnCamino");
+            this.mAnimator.ResetTrigger("Atacando");
+            this.mAnimator.ResetTrigger("EnEspera");
+        }
+        else if (this.estadoJugador == Estado_enum.Atacando)
+        {
+            this.mAnimator.ResetTrigger("EnCamino");
+            this.mAnimator.ResetTrigger("EnEspera");
+            this.mAnimator.SetTrigger("Atacando");
+        }
+        else if (this.estadoJugador == Estado_enum.Muerto)
+        {
+            this.mAnimator.SetTrigger("Muerto");
+            this.mAnimator.ResetTrigger("Atacando");
+            this.mAnimator.ResetTrigger("EnCamino");
+            this.mAnimator.ResetTrigger("EnEspera");
+        }
+        else
+        {
+            this.mAnimator.SetTrigger("EnEspera");
+            this.mAnimator.ResetTrigger("Atacando");
+            this.mAnimator.ResetTrigger("EnCamino");
+        }
+
+    }
+
+    public void reduceVida(int danio)
+    {
+        this.vida = this.vida - danio;
     }
 
 }

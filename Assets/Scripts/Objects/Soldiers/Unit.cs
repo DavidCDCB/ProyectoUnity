@@ -50,7 +50,7 @@ public class Unit : MonoBehaviour
         [Header("Variables")]
         public float vida_base;
         public float vida;
-        public float danio; //Cambiar luego si hay multiples ataques
+        public int danio; //Cambiar luego si hay multiples ataques
 
         [Header("Datos AI")]
         protected List<Transform> puntos_viaje;

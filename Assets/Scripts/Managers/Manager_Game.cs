@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Manager_Game : MonoBehaviour
 {
@@ -52,24 +53,32 @@ public class Manager_Game : MonoBehaviour
         Visual_seleccion();
         contador++;
 
-
+        //Crea los personajes del jugador cada tiempo
         if (contador % 700 == 0)
         {
             if (this.soldados_jugador1.Count < 50)
             {
                 this.creaSoldadosJugador();
-
             }
 
         }
 
+         //Crea los personajes del enemigo cada tiempo
         if (contador % 1000 == 0)
         {
         if (this.soldados_jugador2.Count < 50)
         {
             this.creaSoldadosEnemigo();
         }
+        }
 
+        //Revisa la salud de las torres
+        if(this.torres_Jugador1[0].get_vida()<=0f){
+            SceneManager.LoadScene("Perdio");
+        }
+
+        if(this.torres_Jugador2[0].get_vida()<=0f){
+            SceneManager.LoadScene("Gano");
         }
 
 
@@ -90,21 +99,21 @@ public class Manager_Game : MonoBehaviour
 
         if (Input.GetKey(KeyCode.W))
         {
-            this.jugador1.transform.Translate(new Vector3(10f, 0, 0));
+            this.jugador1.transform.Translate(new Vector3(-1f, 0, 0));
         }
 
         if (Input.GetKey(KeyCode.S))
         {
-            this.jugador1.transform.Translate(new Vector3(-10f, 0, 0));
+            this.jugador1.transform.Translate(new Vector3(+1f, 0, 0));
         }
         if (Input.GetKey(KeyCode.D))
         {
-            this.jugador1.transform.Translate(new Vector3(0, 0, 10f));
+            this.jugador1.transform.Translate(new Vector3(0, 0, 1f));
         }
 
         if (Input.GetKey(KeyCode.A))
         {
-            this.jugador1.transform.Translate(new Vector3(0, 0, -10f));
+            this.jugador1.transform.Translate(new Vector3(0, 0, -1f));
         }
 
         //Datos de debug
@@ -141,8 +150,8 @@ public class Manager_Game : MonoBehaviour
     {
         foreach (Soldier soldier in this.soldados_seleccionados)
         {
+            soldier.setEnCamino();
             soldier.envia_a_pos(punto);
-            Debug.Log("Se envio a " + punto);
         }
     }
 
@@ -164,17 +173,10 @@ public class Manager_Game : MonoBehaviour
 
             foreach (Building construccion in aux.get_caminos())
             {
-                Debug.Log("Se visito");
-                Debug.Log(construccion.get_id());
-                Debug.Log(construccion.tipo());
-
 
 
                 if (!construccion.tipo().Equals("Oponente"))
                 {
-
-                    Debug.Log("Se dirigen a");
-                    Debug.Log(construccion.get_id());
                     return construccion.transform;
                 }
                 else
@@ -206,7 +208,7 @@ public class Manager_Game : MonoBehaviour
             Soldier soldado = game.GetComponent<Soldier>();
 
             //Se inicializa
-            soldado.Inicializa(500, 10, "Jugador");
+            soldado.Inicializa(500, 100, "Jugador");
 
             //Se agregan a la lista
             this.soldados_jugador1.Add(soldado);
@@ -218,14 +220,14 @@ public class Manager_Game : MonoBehaviour
     void creaSoldadosEnemigo()
     {
         Vector3[] posiciones = this.torres_Jugador2[0].GetComponent<Tower>().devuelve_posiciones();
-        for (int i = 0; i < 5; i++)
+        for (int i = 2; i < 4; i++)
         {
             //Se crea el objeto
             GameObject game = UnityEngine.Object.Instantiate(this.soldadoB, posiciones[i], Quaternion.identity);
             Soldier soldado = game.GetComponent<Soldier>();
 
             //Se inicializa
-            soldado.Inicializa(500, 10, "Oponente");
+            soldado.Inicializa(500, 50, "Oponente");
 
             //Se agregan a la lista
             this.soldados_jugador2.Add(soldado);
@@ -348,6 +350,10 @@ public class Manager_Game : MonoBehaviour
     {
         return this.torres_Jugador2;
     }
+
+
+
+
 
 
 

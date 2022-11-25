@@ -73,6 +73,11 @@ public class Building : MonoBehaviour
 
     }
 
+    public float get_vida(){
+
+        return this.vida;
+    }
+
     public string tipo()
     {
         if (this.tipo_jugador == Jugador_enum.Jugador)
@@ -95,11 +100,11 @@ public class Building : MonoBehaviour
     }
     public float get_puntos_aliado()
     {
-        return puntos_aliado;
+        return this.puntos_aliado;
     }
 
     public float get_puntos_enemigo()
     {
-        return puntos_enemigo;
+        return this.puntos_enemigo;
     }
 }
