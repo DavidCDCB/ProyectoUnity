@@ -51,10 +51,7 @@ public class Manager_Controller : MonoBehaviour
     //Activacion de menu con una tecla
     void activaMenu()
     {
-        if (Input.GetKeyDown("q"))
-        {
-            menuActive = !menuActive;
-        }
+
 
     }
 
@@ -87,7 +84,7 @@ public class Manager_Controller : MonoBehaviour
     {
         if (Input.GetKeyDown("x"))
         {
-            Manager_Game.Instance.creaSoldado2();
+/*             Manager_Game.Instance.creaSoldado2(); */
         }
 
         if (Input.GetKeyDown("c"))

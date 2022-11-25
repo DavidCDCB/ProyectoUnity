@@ -4,7 +4,9 @@ using UnityEngine;
 
 public class Building : MonoBehaviour
 {
-
+    public float puntos_aliado = 0;
+    public float puntos_enemigo = 0;
+    public float puntos_base = 0;
     public enum Jugador_enum
     {
         Jugador,
@@ -62,6 +64,7 @@ public class Building : MonoBehaviour
         {
             return this.vida / this.vida_base;
         }
+
         else
         {
             return 0;
@@ -70,4 +73,33 @@ public class Building : MonoBehaviour
 
     }
 
+    public string tipo()
+    {
+        if (this.tipo_jugador == Jugador_enum.Jugador)
+        {
+            return "Jugador";
+        }
+        else if (this.tipo_jugador == Jugador_enum.Ninguno)
+        {
+            return "Ninguno";
+        }
+        else
+        {
+            return "Oponente";
+        }
+    }
+
+    public float get_id()
+    {
+        return this.id;
+    }
+    public float get_puntos_aliado()
+    {
+        return puntos_aliado;
+    }
+
+    public float get_puntos_enemigo()
+    {
+        return puntos_enemigo;
+    }
 }

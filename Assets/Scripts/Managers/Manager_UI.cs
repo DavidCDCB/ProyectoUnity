@@ -16,9 +16,13 @@ public class Manager_UI : MonoBehaviour
     public GameObject Mini_Map_UI;
     public GameObject Units_Info_UI;
     public GameObject Health_UI;
-    public GameObject Time_UI;
-
     public GameObject Icon_UI;
+
+    public GameObject Base_health;
+
+    public RectTransform seleccion_box;
+
+    public Camera main_camera;
 
 
     [Header("Test")]
@@ -39,20 +43,20 @@ public class Manager_UI : MonoBehaviour
     public int num_cuadrados_normales = 0;
 
 
-    public float offset_x_minimenu ;
-    public float offset_y_minimenu ;
-    public float offset_w_minimenu ;
-    public float offset_h_minimenu ;
+    public float offset_x_minimenu;
+    public float offset_y_minimenu;
+    public float offset_w_minimenu;
+    public float offset_h_minimenu;
 
-    public float offset_t_minimenu ;
+    public float offset_t_minimenu;
 
 
-    public float offset_x_menu ;
-    public float offset_y_menu ;
-    public float offset_w_menu ;
-    public float offset_h_menu ;
+    public float offset_x_menu;
+    public float offset_y_menu;
+    public float offset_w_menu;
+    public float offset_h_menu;
 
-    public float offset_t_menu ;
+    public float offset_t_menu;
 
 
     //Parte Grafica
@@ -65,10 +69,20 @@ public class Manager_UI : MonoBehaviour
 
 
     List<Unit> listaSeleccionados = new List<Unit>();
+
+    public float xt;
+    public float yt;
+
+    public float zt;
+
+
+
+
+
+
+
+
     //-----------------------------------------------------
-
-
-
 
     // Start is called before the first frame update
     void Start()
@@ -98,71 +112,7 @@ public class Manager_UI : MonoBehaviour
 
     void Update()
     {
-        Debug.Log("---Datos mouse---");
-        Debug.Log(this.convierte_pos_mouse());
-        Debug.Log(this.Manager_Game.GetComponent<Manager_Controller>().getInputMouse());
-        Debug.Log("---Datos x---");
 
-
-        
-        //BORRAR LUEGO
-
-        if (this.Manager_Game.GetComponent<Manager_Controller>().isMenuActive())
-        {
-            this.Menu_UI.GetComponent<CanvasGroup>().alpha = 0.0f;
-
-            //En click
-            if (Input.GetMouseButtonDown(0))
-            {
-                this.startPosition = this.convierte_pos_mouse();
-                this.selectionBox = new Rect();
-            }
-
-            //Durante
-            if (Input.GetMouseButton(0))
-            { 
-                this.endPosition = this.convierte_pos_mouse();
-                DrawVisual();
-                DrawSelection();
-            }
-
-            //Al final
-            if (Input.GetMouseButtonUp(0))
-            {
-                SelectUnits();
-                this.startPosition = Vector2.zero;
-                this.endPosition = Vector2.zero;
-                DrawVisual();
-                DrawSelection();
-
-            }
-
-        }
-        //BORRAR LUEGO  
-        if (this.Manager_Game.GetComponent<Manager_Controller>().isMenuActive())
-        {
-            this.Menu_UI.GetComponent<CanvasGroup>().alpha = 1f;
-        }
-        else
-        {
-            this.Menu_UI.GetComponent<CanvasGroup>().alpha = 0.0f;
-        }
-        //BORRAR LUEGO
-
-        if (Input.GetMouseButtonDown(1))
-        {
-            foreach (Unit soldado in this.listaSeleccionados)
-            {
-                float x = Input.mousePosition.x;
-                float z = Input.mousePosition.y;
-
-                soldado.GetComponent<UnityEngine.AI.NavMeshAgent>().SetDestination(new Vector3(-30, 1, 21));
-                Debug.Log("Se envio a:");
-                Debug.Log(new Vector3(x, 0, z));
-            }
-
-        }
-        //Agregar agarre de mouse
     }
 
 
@@ -181,6 +131,10 @@ public class Manager_UI : MonoBehaviour
         this.num_cuadrados_normales = 0;
         this.imprimeInfo();
         this.imprime_minimenu();
+
+        imprime_bases_mapa();
+
+
 
     }
 
@@ -267,11 +221,6 @@ public class Manager_UI : MonoBehaviour
         //imprime soladdos jugador 2
         this.imprime_soldados_mapa(1, 0, this.Manager_Game.GetComponent<Manager_Game>().get_unidades_jugador2(), 7);
 
-        //imprime vigias jugador 1
-        this.imprime_soldados_mapa(2, 0, this.Manager_Game.GetComponent<Manager_Game>().get_vigias_jugador1(), 4);
-
-        //imprime vigias jugador 2
-        this.imprime_soldados_mapa(2, 0, this.Manager_Game.GetComponent<Manager_Game>().get_vigias_jugador2(), 4);
 
         //----Impresion de construcciones---
 
@@ -284,7 +233,7 @@ public class Manager_UI : MonoBehaviour
 
         //Imprime bases
 
-        this.imprime_bases_mapa(2, 0,this.Manager_Game.GetComponent<Manager_Game>().get_bases(), 7);
+        this.imprime_bases_mapa(2, 0, this.Manager_Game.GetComponent<Manager_Game>().get_bases(), 7);
     }
 
 
@@ -308,9 +257,9 @@ public class Manager_UI : MonoBehaviour
         float mouse_x = (mouse_abs_x / x) * width / 2;
         float mouse_y = (mouse_abs_y / y) * height / 2;
 
-        
 
-        return new Vector2(mouse_x,mouse_y);
+
+        return new Vector2(mouse_x, mouse_y);
 
     }
 
@@ -439,5 +388,43 @@ public class Manager_UI : MonoBehaviour
     }
 
 
+    void imprime_bases_mapa()
+    {
+        Building[] buildings = this.Manager_Game.GetComponent<Manager_Game>().get_bases();
+
+        //Se cuentan las bases
+        for (int i = 0; i < buildings.Length; i++)
+        {
+            Building b = buildings[i];
+            GameObject bar = this.Base_health.transform.GetChild(i).gameObject;
+            //Para cada barra
+
+            bar.transform.position = main_camera.WorldToScreenPoint(b.transform.position+ new Vector3(-45f,10f,50f));
+
+            //Se obtiene los valores
+            Image barra_roja=bar.transform.GetChild(1).GetComponent<Image>();
+            Image barra_azul=bar.transform.GetChild(2).GetComponent<Image>();
+
+    
+
+            float aliado=b.get_puntos_aliado();
+            float enemigo=b.get_puntos_enemigo();
+
+            barra_roja.fillAmount=aliado/500f;
+            barra_azul.fillAmount=enemigo/500f;
+
+
+
+        }
+
+
+
+    }
+
+
 
 }
+
+
+
+

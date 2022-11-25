@@ -7,23 +7,6 @@ public class Manager_Game : MonoBehaviour
 
     //Instancia de control de juego
     private static Manager_Game _instance;
-    public static Manager_Game Instance { get { return _instance; } }
-
-    void Awake()
-    {
-        //Si una instancia existe y no es esta
-        //Sino establece esta como la instancia
-        if (_instance != null && _instance != this)
-        {
-            Destroy(this.gameObject);
-        }
-        else
-        {
-            _instance = this;
-        }
-    }
-
-
     public enum Estado_Juego
     {
         EnJuego,
@@ -41,46 +24,23 @@ public class Manager_Game : MonoBehaviour
     public GameObject jugador1;
     public GameObject jugador2;
 
-    private List<Unit> soldados_jugador1 = new List<Unit>();
-    private List<Unit> vigias_jugador1 = new List<Unit>();
-
-    private List<Unit> soldados_jugador2 = new List<Unit>();
-    private List<Unit> vigias_jugador2 = new List<Unit>();
+    public List<Unit> soldados_jugador1 = new List<Unit>();
+    public List<Unit> soldados_jugador2 = new List<Unit>();
+    public List<Unit> soldados_seleccionados = new List<Unit>();
 
 
     [Header("Prefabs")]
 
-    public GameObject vigia;
-
-    public GameObject vigia_enemigo;
     public GameObject soldadoA;
     public GameObject soldadoB;
-    public GameObject soldadoC;
-    public GameObject soldadoD;
 
-
-    [Header("Datos para AI")]
-    public List<List<Building>> camino_J1aJ2;
-    public List<List<Building>> camino_J2aJ1;
-
-    public int tiempo_crea_vigia = 200;
-
-    public int posTA = 0;
-
-    public int posTB = 0;
+    public int contador;
 
     //-----------------------Metodos--------------------
     // Start is called before the first frame update
     void Start()
     {
 
-        //Se crea la lista de caminos para el jugador 1
-        camino_J1aJ2 = this.caminos_A_a_B(this.torres_Jugador1[0], this.torres_Jugador2[0]);
-        camino_J2aJ1 = this.caminos_A_a_B(this.torres_Jugador2[0], this.torres_Jugador1[0]);
-
-        /*//Se crea la lista de caminos para el jugador 2
-                camino_J2aJ1 = this.caminos_A_a_B(this.torres_Jugador2[0], this.torres_Jugador1[0]);
-         */
     }
 
     // Update is called once per frame
@@ -88,183 +48,269 @@ public class Manager_Game : MonoBehaviour
     {
         //Apenas se inicia se revisan que variables se eliminarion
         limpiaListas();
+        Ai_enemigo();
+        Visual_seleccion();
+        contador++;
+
+
+        if (contador % 700 == 0)
+        {
+            if (this.soldados_jugador1.Count < 50)
+            {
+                this.creaSoldadosJugador();
+
+            }
+
+        }
+
+        if (contador % 1000 == 0)
+        {
+        if (this.soldados_jugador2.Count < 50)
+        {
+            this.creaSoldadosEnemigo();
+        }
+
+        }
+
+
 
     }
 
     void FixedUpdate()
     {
         muevepj();
-        creadores();
     }
 
-    void creadores()
+
+
+
+    //---------Movimiento de la camara-------
+    void muevepj()
     {
-        if (tiempo_crea_vigia <= 0)
+
+        if (Input.GetKey(KeyCode.W))
         {
-            StartCoroutine(crea_vigia());
-            /*             StartCoroutine(crea_vigia_enemi()); */
-            tiempo_crea_vigia = 2000;
+            this.jugador1.transform.Translate(new Vector3(10f, 0, 0));
         }
 
-
-        tiempo_crea_vigia--;
-    }
-
-
-    IEnumerator crea_vigia()
-    {
-        for (int i = 0; i < 7; i++)
+        if (Input.GetKey(KeyCode.S))
         {
-            yield return new WaitForSeconds(1f);
-            Vector3[] posiciones = this.torres_Jugador1[0].GetComponent<Tower>().devuelve_posiciones();
-
-            GameObject _vigia = Instantiate(this.vigia, posiciones[2], Quaternion.identity);
-
-            Watch u = _vigia.GetComponent<Watch>();
-
-            this.vigias_jugador1.Add(u);
-
-            Debug.Log("test");
-            Debug.Log(this.posTA);
-            Debug.Log(camino_J1aJ2.Count);
-
-            List<Transform> puntos = new List<Transform>();
-            //TODO:Cambiar a Transform
-            foreach (Building b in camino_J1aJ2[this.posTA])
-            {
-                puntos.Add(b.transform);
-            }
-            u.Inicializa(puntos);
-
-
-            if (this.camino_J1aJ2.Count > this.posTA + 1)
-            {
-                this.posTA++;
-            }
-
-            else
-            {
-                this.posTA = 0;
-            }
-
+            this.jugador1.transform.Translate(new Vector3(-10f, 0, 0));
+        }
+        if (Input.GetKey(KeyCode.D))
+        {
+            this.jugador1.transform.Translate(new Vector3(0, 0, 10f));
         }
 
-
-
-    }
-
-
-    IEnumerator crea_vigia_enemi()
-    {
-        for (int i = 0; i < 5; i++)
+        if (Input.GetKey(KeyCode.A))
         {
-            yield return new WaitForSeconds(1f);
-            Vector3[] posiciones = this.torres_Jugador2[0].GetComponent<Tower>().devuelve_posiciones();
-
-            GameObject _vigia = Instantiate(this.vigia, posiciones[2], Quaternion.identity);
-
-            Watch u = _vigia.GetComponent<Watch>();
-
-            this.vigias_jugador2.Add(u);
-
-            List<Transform> puntos = new List<Transform>();
-            //TODO:Cambiar a Transform
-            foreach (Building b in camino_J2aJ1[this.posTB])
-            {
-                puntos.Add(b.transform);
-            }
-            u.Inicializa(puntos);
-
-
-            if (this.camino_J2aJ1.Count > this.posTB + 1)
-            {
-                this.posTB++;
-            }
-
-            else
-            {
-                this.posTB = 0;
-            }
-
+            this.jugador1.transform.Translate(new Vector3(0, 0, -10f));
         }
 
+        //Datos de debug
+        //-------
+        if (Input.GetKeyDown(KeyCode.O))
+        {
+            this.creaSoldadosEnemigo();
+        }
+
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+            creaSoldadosJugador();
+        }
     }
 
 
-    public void creaSoldado1()
+    //------Datos de la AI--------
+    void Ai_enemigo()
     {
-        Vector3[] posiciones = this.torres_Jugador1[0].GetComponent<Tower>().devuelve_posiciones();
-
-        this.soldados_jugador1.Add(UnityEngine.Object.Instantiate(this.soldadoA, posiciones[0], Quaternion.identity).GetComponent<Soldier>());
-        this.soldados_jugador1.Add(UnityEngine.Object.Instantiate(this.soldadoA, posiciones[1], Quaternion.identity).GetComponent<Soldier>());
-        this.soldados_jugador1.Add(UnityEngine.Object.Instantiate(this.soldadoA, posiciones[2], Quaternion.identity).GetComponent<Soldier>());
-        this.soldados_jugador1.Add(UnityEngine.Object.Instantiate(this.soldadoA, posiciones[3], Quaternion.identity).GetComponent<Soldier>());
-        this.soldados_jugador1.Add(UnityEngine.Object.Instantiate(this.soldadoA, posiciones[4], Quaternion.identity).GetComponent<Soldier>());
-
+        //Crea algunos soldados en cierto tiempo
+        foreach (Soldier soldier in this.soldados_jugador2)
+        {
+            //Revisa los soldados que esten en espera
+            if (soldier.isEnEspera() && baseRuta() != null)
+            {
+                //Selecciona una base aleatoria para atacar
+                soldier.envia_a_pos(baseRuta().position);
+            }
+        }
     }
 
-    public void creaSoldado2()
+    //----Envia a un soldado a una zona especifica
+    public void enviaSoldado(Vector3 punto)
     {
-        Vector3[] posiciones = this.torres_Jugador1[0].GetComponent<Tower>().devuelve_posiciones();
-        this.soldados_jugador1.Add(UnityEngine.Object.Instantiate(this.soldadoB, posiciones[1], Quaternion.identity).GetComponent<Soldier>());
-        this.soldados_jugador1.Add(UnityEngine.Object.Instantiate(this.soldadoB, posiciones[2], Quaternion.identity).GetComponent<Soldier>());
-        this.soldados_jugador1.Add(UnityEngine.Object.Instantiate(this.soldadoB, posiciones[3], Quaternion.identity).GetComponent<Soldier>());
-
+        foreach (Soldier soldier in this.soldados_seleccionados)
+        {
+            soldier.envia_a_pos(punto);
+            Debug.Log("Se envio a " + punto);
+        }
     }
 
 
-
-    //Devuelve los caminos de una 
-    public List<List<Building>> caminos_A_a_B(Building inicio, Building fin)
+    Transform baseRuta()
     {
-        List<List<Building>> pila = new List<List<Building>>(); //Pila que conserva los caminos
-        List<List<Building>> caminos = new List<List<Building>>(); //Pila que lee los caminos
-
-        //Se crean temporales
-        List<Building> list_temp = new List<Building>();
-        list_temp.Add(inicio);
-        pila.Add(list_temp);
-
-        //valor de
+        Building torreEnemigo = this.torres_Jugador2[0];
+        List<Building> visitados = new List<Building>();
+        List<Building> pila = new List<Building>();
+        pila.Add(torreEnemigo);
 
 
         while (pila.Count > 0)
         {
-            //Se elimina el primero de la lista
-            List<Building> lb_temp = pila[0];
+            //Se elimina de la lista
+            Building aux = pila[0];
             pila.RemoveAt(0);
+            visitados.Add(aux);
 
-
-            //Se revisa para encontrar que mas caminos hay
-            Building b_ultimo = lb_temp[lb_temp.Count - 1];
-
-            foreach (Building construccion in b_ultimo.get_caminos())
+            foreach (Building construccion in aux.get_caminos())
             {
-                if (!lb_temp.Contains(construccion))
+                Debug.Log("Se visito");
+                Debug.Log(construccion.get_id());
+                Debug.Log(construccion.tipo());
+
+
+
+                if (!construccion.tipo().Equals("Oponente"))
                 {
-                    List<Building> nueva_lista = new List<Building>(lb_temp);
-                    nueva_lista.Add(construccion);
-                    pila.Add(nueva_lista);
 
-                    Debug.Log(construccion);
-                    Debug.Log(fin);
-
-                    if (construccion.Equals(fin))
+                    Debug.Log("Se dirigen a");
+                    Debug.Log(construccion.get_id());
+                    return construccion.transform;
+                }
+                else
+                {
+                    if (!visitados.Contains(construccion))
                     {
-                        List<Building> camino_nuevo = new List<Building>(nueva_lista);
-                        caminos.Add(camino_nuevo);
+                        pila.Add(construccion);
+                        visitados.Add(construccion);
                     }
                 }
             }
 
         }
-        return caminos;
+        return null;
+
     }
 
 
 
-    //-------------------------------BORRAR LUEGO NO TUVE TIEMPO PARA ORGANIZARLO---------------------
 
+    //Crea soldados aliado
+    void creaSoldadosJugador()
+    {
+        Vector3[] posiciones = this.torres_Jugador1[0].GetComponent<Tower>().devuelve_posiciones();
+        for (int i = 0; i < 5; i++)
+        {
+            //Se crea el objeto
+            GameObject game = UnityEngine.Object.Instantiate(this.soldadoA, posiciones[i], Quaternion.identity);
+            Soldier soldado = game.GetComponent<Soldier>();
+
+            //Se inicializa
+            soldado.Inicializa(500, 10, "Jugador");
+
+            //Se agregan a la lista
+            this.soldados_jugador1.Add(soldado);
+        }
+    }
+
+
+    //Crea soldados del enemigo
+    void creaSoldadosEnemigo()
+    {
+        Vector3[] posiciones = this.torres_Jugador2[0].GetComponent<Tower>().devuelve_posiciones();
+        for (int i = 0; i < 5; i++)
+        {
+            //Se crea el objeto
+            GameObject game = UnityEngine.Object.Instantiate(this.soldadoB, posiciones[i], Quaternion.identity);
+            Soldier soldado = game.GetComponent<Soldier>();
+
+            //Se inicializa
+            soldado.Inicializa(500, 10, "Oponente");
+
+            //Se agregan a la lista
+            this.soldados_jugador2.Add(soldado);
+        }
+    }
+
+    public void Visual_seleccion()
+    {
+        foreach (Unit u in this.soldados_jugador1)
+        {
+            if (this.soldados_seleccionados.Contains(u))
+            {
+                u.transform.GetChild(0).gameObject.SetActive(true);
+            }
+            else
+            {
+                u.transform.GetChild(0).gameObject.SetActive(false);
+            }
+
+        }
+
+    }
+
+    public void agregaSoldadoSeleccion(Unit u)
+    {
+        if (!this.soldados_seleccionados.Contains(u))
+        {
+            this.soldados_seleccionados.Add(u);
+        }
+        else
+        {
+            this.soldados_seleccionados.Remove(u);
+        }
+    }
+
+    public void deseleccionaSoldados()
+    {
+        foreach (Unit u in this.soldados_seleccionados)
+        {
+            u.transform.GetChild(0).gameObject.SetActive(false);
+
+        }
+
+        this.soldados_seleccionados.Clear();
+    }
+
+
+    private void limpiaListas()
+    {
+
+        for (int i = this.soldados_jugador1.Count - 1; i >= 0; i--)
+        {
+            if (this.soldados_jugador1[i] == null)
+            {
+                this.soldados_jugador1.RemoveAt(i);
+            }
+
+        }
+
+
+        for (int i = this.soldados_jugador2.Count - 1; i >= 0; i--)
+        {
+            if (this.soldados_jugador2[i] == null)
+            {
+                this.soldados_jugador2.RemoveAt(i);
+            }
+
+
+        }
+
+        for (int i = this.soldados_seleccionados.Count - 1; i >= 0; i--)
+        {
+            if (this.soldados_seleccionados[i] == null)
+            {
+                this.soldados_seleccionados.RemoveAt(i);
+            }
+
+        }
+
+
+
+    }
+
+
+    //---Get and set
     public float vida_jugador1T()
     {
         return this.torres_Jugador1[0].porc_vida();
@@ -276,22 +322,12 @@ public class Manager_Game : MonoBehaviour
 
     }
 
-
-
     public List<Unit> get_unidades_jugador1()
     {
         return this.soldados_jugador1;
     }
 
-    public List<Unit> get_vigias_jugador1()
-    {
-        return this.vigias_jugador1;
-    }
 
-    public List<Unit> get_vigias_jugador2()
-    {
-        return this.vigias_jugador1;
-    }
 
     public List<Unit> get_unidades_jugador2()
     {
@@ -317,84 +353,5 @@ public class Manager_Game : MonoBehaviour
 
 
 
-
-    //-------------------------------BORRAR LUEGO NO TUVE TIEMPO PARA ORGANIZARLO---------------------
-    void muevepj()
-    {
-
-        if (Input.GetKey(KeyCode.W))
-        {
-            this.jugador1.transform.Translate(new Vector3(0.1f, 0, 0));
-        }
-
-        if (Input.GetKey(KeyCode.S))
-        {
-            this.jugador1.transform.Translate(new Vector3(-0.1f, 0, 0));
-        }
-        if (Input.GetKey(KeyCode.D))
-        {
-            this.jugador1.transform.Translate(new Vector3(0, 0, 0.1f));
-        }
-
-        if (Input.GetKey(KeyCode.A))
-        {
-            this.jugador1.transform.Translate(new Vector3(0, 0, -0.1f));
-        }
-
-        if (Input.GetKeyDown(KeyCode.F))
-        {
-            this.jugador1.transform.Rotate(0, 20, 0);
-        }
-        if (Input.GetKeyDown(KeyCode.G))
-        {
-            this.jugador1.transform.Rotate(0, -20, 0);
-        }
-    }
-
-    private void limpiaListas()
-    {
-
-        for (int i = this.soldados_jugador1.Count - 1; i >= 0; i--)
-        {
-            if (this.soldados_jugador1[i] == null)
-            {
-                this.soldados_jugador1.RemoveAt(i);
-            }
-
-        }
-
-        for (int i = this.vigias_jugador1.Count - 1; i >= 0; i--)
-        {
-            if (this.vigias_jugador1[i] == null)
-            {
-                this.vigias_jugador1.RemoveAt(i);
-            }
-
-
-        }
-
-        for (int i = this.soldados_jugador2.Count - 1; i >= 0; i--)
-        {
-            if (this.soldados_jugador2[i] == null)
-            {
-                this.soldados_jugador2.RemoveAt(i);
-            }
-
-
-        }
-
-        for (int i = this.vigias_jugador2.Count - 1; i >= 0; i--)
-        {
-
-            if (this.vigias_jugador2[i] == null)
-            {
-                this.vigias_jugador2.RemoveAt(i);
-            }
-
-        }
-
-
-
-    }
 
 }

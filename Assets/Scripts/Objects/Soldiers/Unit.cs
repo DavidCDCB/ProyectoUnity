@@ -5,23 +5,23 @@ using UnityEngine;
 public class Unit : MonoBehaviour
 {
 
-    //Enum
+/*     Enum
 
     public enum Soldado_enum
     {
         Soldado_A,
         Soldado_B,
         Soldado_C  //TODO:Ver si se agregan otras
-    }
+    } */
 
 
-    public enum Color_enum
+/*     public enum Color_enum
     {
         Rojo,
         Azul,
         Verde, //Ordenar luego si se implementan aliados
         Amarillo  //Ordenar luego si se implementan aliados 
-    }
+    } */
 
     public enum Jugador_enum
     {
@@ -41,8 +41,8 @@ public class Unit : MonoBehaviour
 
         [Header("Estados")]
         //Valores
-        public Soldado_enum tipoSoldado;
-        public Color_enum colorSoldado;
+/*         public Soldado_enum tipoSoldado;
+        public Color_enum colorSoldado; */
 
         public Jugador_enum tipoJugador;
         public Estado_enum estadoJugador;
@@ -52,10 +52,7 @@ public class Unit : MonoBehaviour
         public float vida;
         public float danio; //Cambiar luego si hay multiples ataques
 
-
         [Header("Datos AI")]
         protected List<Transform> puntos_viaje;
-
-
 
 }
