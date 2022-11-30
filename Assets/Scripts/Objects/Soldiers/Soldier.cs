@@ -10,6 +10,7 @@ public class Soldier : Unit
     public Base baseAtaque;
     public Tower torreAtaque;
     public Soldier Jugador_Ataque;
+    AudioSource audioData;
 
     public Animator mAnimator;
 
@@ -25,6 +26,7 @@ public class Soldier : Unit
     private void Start()
     {
         this.transform.GetChild(0).gameObject.SetActive(false);
+        this.audioData = GetComponent<AudioSource>();
     }
 
     //Recibe informacion de como inicializar 
@@ -261,6 +263,10 @@ public class Soldier : Unit
 
     public void setAtaque()
     {
+        if(this.gameObject.name.Contains("P1")){
+            this.audioData.Play();
+        }
+        
         this.navMesh.velocity = Vector3.zero;
         this.estadoJugador = Estado_enum.Atacando;
         this.navMesh.isStopped = true;

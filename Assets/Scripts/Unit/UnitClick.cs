@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class UnitClick : MonoBehaviour
 {
+    AudioSource audioData;
+    public AudioClip s1;
+    public AudioClip s2;
     public Camera myCam;
     public LayerMask Clickable;
     public LayerMask Ground;
@@ -16,7 +19,8 @@ public class UnitClick : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
+        audioData = GetComponent<AudioSource>();
+        
     }
 
     // Update is called once per frame
@@ -31,7 +35,6 @@ public class UnitClick : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(0))
         {
-
             RaycastHit hit;
             Ray ray = myCam.ScreenPointToRay(Input.mousePosition);
 
@@ -40,16 +43,21 @@ public class UnitClick : MonoBehaviour
 
                 if (Input.GetKey(KeyCode.Q))
                 {
-                    Debug.Log(hit.collider.gameObject);
+                    Debug.Log("Seleccion---------");
                     GameObject g = hit.collider.gameObject;
                     Unit u = g.GetComponent<Unit>();
 
+                    // ------
+                    
                     this.controlador_juego.GetComponent<Manager_Game>().agregaSoldadoSeleccion(u);
 
                 }
 
                 else
-                {
+                {   
+                    this.audioData.clip = this.s1;
+                    this.audioData.Play();
+                    Debug.Log("Seleccion---------");
                     Debug.Log(hit.collider.gameObject);
                     GameObject g = hit.collider.gameObject;
                     Unit u = g.GetComponent<Unit>();
@@ -86,6 +94,9 @@ public class UnitClick : MonoBehaviour
 
             if (Physics.Raycast(ray, out hit, Mathf.Infinity, Ground))
             {
+                this.audioData.clip = this.s2;
+                this.audioData.Play();
+                Debug.Log("Destino---------");
                 this.controlador_juego.GetComponent<Manager_Game>().enviaSoldado(hit.point);
                 Debug.Log(hit.point);
             }
